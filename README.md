@@ -22,6 +22,13 @@
 
 </div>
 
+> 2026-01-19:
+> we will also discuss
+> ["Data Modelling"](https://github.com/UofT-DSI/sql/blob/main/01_materials/slides/slides_01.pdf)
+> and ["Ethics"](https://github.com/UofT-DSI/sql/blob/main/01_materials/slides/slides_06.pdf),
+> and explore a dataset provided by the learners' organization
+> (which will be shared in class).
+
 ##  Appendices
 
 <div id="appendices" markdown="1">

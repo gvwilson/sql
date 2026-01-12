@@ -2,6 +2,8 @@
 
 <p id="terms"></p>
 
+> See also ["Building Queries: An Exploration"](https://github.com/UofT-DSI/sql/blob/main/01_materials/slides/slides_02.pdf)
+
 ## Selecting Constant
 
 ```{.sql data-file="select_1.sql"}
@@ -365,6 +367,8 @@ or look at [the documentation for SQLite's `format()` function][sqlite_format].
 
 ## Calculating with Missing Values
 
+> See also ["Advanced Techniques"](https://github.com/UofT-DSI/sql/blob/main/01_materials/slides/slides_04.pdf)
+
 ```{.sql data-file="show_missing_values.penguins.sql"}
 select
     flipper_length_mm / 10.0 as flipper_cm,
@@ -545,6 +549,8 @@ where sex is null;
 </figure>
 
 ## Aggregating
+
+> See also ["Essential SQL Techniques"](https://github.com/UofT-DSI/sql/blob/main/01_materials/slides/slides_03.pdf)
 
 ```{.sql data-file="simple_sum.penguins.sql"}
 select sum(body_mass_g) as total_mass
@@ -788,6 +794,8 @@ create table work (
 -   Use `work_job.db` from the zip file
 
 ## Inserting Data
+
+> See also ["Advanced Techniques"](https://github.com/UofT-DSI/sql/blob/main/01_materials/slides/slides_05.pdf)
 
 ```{.sql data-file="populate_work_job.sql"}
 insert into job values
