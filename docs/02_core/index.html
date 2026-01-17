@@ -40,7 +40,7 @@
 </nav>
 <main>
 <h1>Core Features</h1>
-<p id="terms">Terms defined: <a class="term-defined" href="admin_command">administration command</a>, <a class="term-defined" href="aggregation">aggregation</a>, <a class="term-defined" href="aggregation_func">aggregation function</a>, <a class="term-defined" href="cross_join">cross join</a>, <a class="term-defined" href="exclusive_or">exclusive or</a>, <a class="term-defined" href="filter">filter</a>, <a class="term-defined" href="full_outer_join">full outer join</a>, <a class="term-defined" href="group">group</a>, <a class="term-defined" href="in_memory_db">in-memory database</a>, <a class="term-defined" href="inclusive_or">inclusive or</a>, <a class="term-defined" href="join">join</a>, <a class="term-defined" href="join_condition">join condition</a>, <a class="term-defined" href="left_outer_join">left outer join</a>, <a class="term-defined" href="null">null</a>, <a class="term-defined" href="query">query</a>, <a class="term-defined" href="right_outer_join">right outer join</a>, <a class="term-defined" href="ternary_logic">ternary logic</a>, <a class="term-defined" href="tombstone">tombstone</a></p>
+<p id="terms">Terms defined: <a class="term-defined" href="aggregation">aggregation</a>, <a class="term-defined" href="aggregation_func">aggregation function</a>, <a class="term-defined" href="cross_join">cross join</a>, <a class="term-defined" href="exclusive_or">exclusive or</a>, <a class="term-defined" href="filter">filter</a>, <a class="term-defined" href="full_outer_join">full outer join</a>, <a class="term-defined" href="group">group</a>, <a class="term-defined" href="in_memory_db">in-memory database</a>, <a class="term-defined" href="inclusive_or">inclusive or</a>, <a class="term-defined" href="join">join</a>, <a class="term-defined" href="join_condition">join condition</a>, <a class="term-defined" href="left_outer_join">left outer join</a>, <a class="term-defined" href="null">null</a>, <a class="term-defined" href="query">query</a>, <a class="term-defined" href="right_outer_join">right outer join</a>, <a class="term-defined" href="ternary_logic">ternary logic</a>, <a class="term-defined" href="tombstone">tombstone</a></p>
 <blockquote>
 <p>See also <a href="https://github.com/UofT-DSI/sql/blob/main/01_materials/slides/slides_02.pdf">"Building Queries: An Exploration"</a></p>
 </blockquote>
@@ -75,12 +75,19 @@ Adelie|Torgersen|36.7|18.8|187.0|3800.0|FEMALE
 <li>Use <code>from <em>tablename</em></code> to specify table</li>
 <li>Output format is not particularly readable</li>
 </ul>
-<h2 class="aside">Administrative Commands</h2>
-<div class="codehilite"><pre class=""><span></span><code><span class="p">.</span><span class="n">headers</span><span class="w"> </span><span class="k">on</span>
+<!--
+
+## Administrative Commands {: .aside}
+
+
+<div class="codehilite"><pre><span></span><code><span class="p">.</span><span class="n">headers</span><span class="w"> </span><span class="k">on</span>
 <span class="p">.</span><span class="k">mode</span><span class="w"> </span><span class="n">markdown</span>
 <span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">little_penguins</span><span class="p">;</span>
 </code></pre></div>
-<div class="codehilite"><pre class=""><span></span><code>|  species  |  island   | bill_length_mm | bill_depth_mm | flipper_length_mm | body_mass_g |  sex   |
+
+
+
+<div class="codehilite"><pre><span></span><code>|  species  |  island   | bill_length_mm | bill_depth_mm | flipper_length_mm | body_mass_g |  sex   |
 |-----------|-----------|----------------|---------------|-------------------|-------------|--------|
 | Gentoo    | Biscoe    | 51.3           | 14.2          | 218.0             | 5300.0      | MALE   |
 | Adelie    | Dream     | 35.7           | 18.0          | 202.0             | 3550.0      | FEMALE |
@@ -93,17 +100,18 @@ Adelie|Torgersen|36.7|18.8|187.0|3800.0|FEMALE
 | Gentoo    | Biscoe    | 52.1           | 17.0          | 230.0             | 5550.0      | MALE   |
 | Adelie    | Torgersen | 36.7           | 18.8          | 187.0             | 3800.0      | FEMALE |
 </code></pre></div>
-<ul>
-<li><code>.mode markdown</code> and <code>.headers on</code> make the output more readable</li>
-<li>These SQLite <a href="../glossary/#admin_command">administrative commands</a>
-    start with <code>.</code> and <em>aren't</em> part of the SQL standard<ul>
-<li>PostgreSQL's special commands start with <code>\</code></li>
-</ul>
-</li>
-<li>Each command must appear on a line of its own</li>
-<li>Use <code>.help</code> for a complete list</li>
-<li>And as mentioned earlier, use <code>.quit</code> to quit</li>
-</ul>
+
+
+
+-   `.mode markdown` and `.headers on` make the output more readable
+-   These SQLite [administrative commands](g:admin_command)
+    start with `.` and *aren't* part of the SQL standard
+    -   PostgreSQL's special commands start with `\`
+-   Each command must appear on a line of its own
+-   Use `.help` for a complete list
+-   And as mentioned earlier, use `.quit` to quit
+
+-->
 <h2>Specifying Columns</h2>
 <div class="codehilite"><pre class=""><span></span><code><span class="k">select</span>
 <span class="w">    </span><span class="n">species</span><span class="p">,</span>

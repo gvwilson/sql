@@ -2,6 +2,8 @@
 
 <p id="terms"></p>
 
+<!--
+
 ## What This Is
 
 -   Notes and working examples that instructors can use to perform a lesson
@@ -11,20 +13,21 @@
     -   We expect instructors to create an arrangement and/or improvise while delivering
     -   See [*Teaching Tech Together*][t3] for background
 
+-->
+
 ## Scope {: .aside}
 
 -   [intended audience][persona]
-    -   Rachel has a master's degree in cell biology
-        and now works in a research hospital doing cell assays.
-    -   She learned a bit of R in an undergrad biostatistics course
-        and has been through [the Carpentries lesson on the Unix shell][carpentries_shell].
-    -   Rachel is thinking about becoming a data scientist
-        and would like to understand how data is stored and managed.
+    -   Rachel has a degree in cell biology
+        and works in a research hospital doing cell assays.
+    -   She uses Excel to analyze experimental data,
+        but is frustrated each time she has to ask one of her colleagues
+        to pull data from the hospital database.
+    -   Rachel would like to understand how data is stored and managed.
     -   Her work schedule is unpredictable and highly variable,
         so she needs to be able to learn a bit at a time.
 -   prerequisites
-    -   basic Unix command line: `cd`, `ls`, `*` wildcard
-    -   basic tabular data analysis: filtering rows, aggregating within groups
+    -   Basic tabular data analysis: filtering rows, aggregating within groups
 -   learning outcomes
     1.  Explain the difference between a database and a database manager.
     1.  Write SQL to select, filter, sort, group, and aggregate data.
@@ -38,11 +41,7 @@
 
 ## Setup {: .aside}
 
--   Download the latest release
--   Unzip the file in a temporary directory to create:
-    -   `./db/*.db`: the [SQLite][sqlite] databases used in the examples
-    -   `./src/*.*`: SQL queries, Python scripts, and other source code
-    -   `./out/*.*`: expected output for examples
+-   See instructions on the [home page](@/).
 
 ## Background Concepts {: .aside}
 
@@ -64,18 +63,27 @@
 
 ## Connecting to Database {: .aside}
 
+-   Using [DB Browser for SQLite](https://sqlitebrowser.org/):
+    -   Open the application
+    -   `File`…`Open Database`
+    -   Select `penguins.db` from the download
+
+### Command Line
+
+-   On the command line:
+
 ```{.sh data-file="connect_penguins.sh"}
 sqlite3 db/penguins.db
 ```
 
--   Not actually a query: starts an interactive session with the database in `db/penguins.db`
--   Alternative: provide a single query on the command line
-    <code>sqlite3 <em>database</em> "<em>query</em>"</code>
--   Or put query in file and run <code>sqlite3 <em>database</em> < <em>filename</em></code>
 -   Note: the `penguins` database contains two tables
     -   `penguins` is all the [Palmer Penguins][palmer_penguins] data
     -   `little_penguins` is a subset used in our first few queries
         to keep output readable
+-   Not actually a query: starts an interactive session with the database in `db/penguins.db`
+-   Alternative: provide a single query on the command line
+    <code>sqlite3 <em>database</em> "<em>query</em>"</code>
+-   Or put query in file and run <code>sqlite3 <em>database</em> < <em>filename</em></code>
 
 > To disconnect from an interactive database session,
 > type Control-D or `.quit` on a line of its own.

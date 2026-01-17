@@ -41,6 +41,8 @@ Adelie|Torgersen|36.7|18.8|187.0|3800.0|FEMALE
 -   Use <code>from <em>tablename</em></code> to specify table
 -   Output format is not particularly readable
 
+<!--
+
 ## Administrative Commands {: .aside}
 
 ```{.sql data-file="admin_commands.sql"}
@@ -70,6 +72,8 @@ select * from little_penguins;
 -   Each command must appear on a line of its own
 -   Use `.help` for a complete list
 -   And as mentioned earlier, use `.quit` to quit
+
+-->
 
 ## Specifying Columns
 
