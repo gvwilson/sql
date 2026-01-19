@@ -50,6 +50,51 @@
 <img alt="table-level diagram of assay database showing primary and foreign key relationships" src="tools_assays_tables.svg"/>
 <figcaption>Figure 2: Assay Database Table Diagram</figcaption>
 </figure>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">department</span><span class="p">(</span>
+<span class="w">       </span><span class="n">ident</span><span class="w">            </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="k">primary</span><span class="w"> </span><span class="k">key</span><span class="p">,</span>
+<span class="w">       </span><span class="n">name</span><span class="w">             </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">building</span><span class="w">         </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">staff</span><span class="p">(</span>
+<span class="w">       </span><span class="n">ident</span><span class="w">            </span><span class="nb">integer</span><span class="w"> </span><span class="k">primary</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="n">autoincrement</span><span class="p">,</span>
+<span class="w">       </span><span class="n">personal</span><span class="w">         </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">family</span><span class="w">           </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">dept</span><span class="w">             </span><span class="nb">text</span><span class="p">,</span>
+<span class="w">       </span><span class="n">age</span><span class="w">              </span><span class="nb">integer</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="k">foreign</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="p">(</span><span class="n">dept</span><span class="p">)</span><span class="w"> </span><span class="k">references</span><span class="w"> </span><span class="n">department</span><span class="p">(</span><span class="n">ident</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">experiment</span><span class="p">(</span>
+<span class="w">       </span><span class="n">ident</span><span class="w">            </span><span class="nb">integer</span><span class="w"> </span><span class="k">primary</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="n">autoincrement</span><span class="p">,</span>
+<span class="w">       </span><span class="n">kind</span><span class="w">             </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">started</span><span class="w">          </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">ended</span><span class="w">            </span><span class="nb">text</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">performed</span><span class="p">(</span>
+<span class="w">       </span><span class="n">staff</span><span class="w">            </span><span class="nb">integer</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">experiment</span><span class="w">       </span><span class="nb">integer</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="k">foreign</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="p">(</span><span class="n">staff</span><span class="p">)</span><span class="w"> </span><span class="k">references</span><span class="w"> </span><span class="n">staff</span><span class="p">(</span><span class="n">ident</span><span class="p">),</span>
+<span class="w">       </span><span class="k">foreign</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="p">(</span><span class="n">experiment</span><span class="p">)</span><span class="w"> </span><span class="k">references</span><span class="w"> </span><span class="n">experiment</span><span class="p">(</span><span class="n">ident</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">plate</span><span class="p">(</span>
+<span class="w">       </span><span class="n">ident</span><span class="w">            </span><span class="nb">integer</span><span class="w"> </span><span class="k">primary</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="n">autoincrement</span><span class="p">,</span>
+<span class="w">       </span><span class="n">experiment</span><span class="w">       </span><span class="nb">integer</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">upload_date</span><span class="w">      </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">filename</span><span class="w">         </span><span class="nb">text</span><span class="w"> </span><span class="k">unique</span><span class="p">,</span>
+<span class="w">       </span><span class="k">foreign</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="p">(</span><span class="n">experiment</span><span class="p">)</span><span class="w"> </span><span class="k">references</span><span class="w"> </span><span class="n">experiment</span><span class="p">(</span><span class="n">ident</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">invalidated</span><span class="p">(</span>
+<span class="w">       </span><span class="n">plate</span><span class="w">            </span><span class="nb">integer</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">staff</span><span class="w">            </span><span class="nb">integer</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">invalidate_date</span><span class="w">  </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="k">foreign</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="p">(</span><span class="n">plate</span><span class="p">)</span><span class="w"> </span><span class="k">references</span><span class="w"> </span><span class="n">plate</span><span class="p">(</span><span class="n">ident</span><span class="p">),</span>
+<span class="w">       </span><span class="k">foreign</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="p">(</span><span class="n">staff</span><span class="p">)</span><span class="w"> </span><span class="k">references</span><span class="w"> </span><span class="n">staff</span><span class="p">(</span><span class="n">ident</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
 <h2>1. List all departments</h2>
 <p>Show all columns for every department.</p>
 <h2>2. List staff names and ages</h2>

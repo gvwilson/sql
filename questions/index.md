@@ -10,6 +10,53 @@
   <figcaption>Assay Database Table Diagram</figcaption>
 </figure>
 
+```sql
+CREATE TABLE department(
+       ident            text not null primary key,
+       name             text not null,
+       building         text not null
+);
+
+CREATE TABLE staff(
+       ident            integer primary key autoincrement,
+       personal         text not null,
+       family           text not null,
+       dept             text,
+       age              integer not null,
+       foreign key (dept) references department(ident)
+);
+
+CREATE TABLE experiment(
+       ident            integer primary key autoincrement,
+       kind             text not null,
+       started          text not null,
+       ended            text
+);
+
+CREATE TABLE performed(
+       staff            integer not null,
+       experiment       integer not null,
+       foreign key (staff) references staff(ident),
+       foreign key (experiment) references experiment(ident)
+);
+
+CREATE TABLE plate(
+       ident            integer primary key autoincrement,
+       experiment       integer not null,
+       upload_date      text not null,
+       filename         text unique,
+       foreign key (experiment) references experiment(ident)
+);
+
+CREATE TABLE invalidated(
+       plate            integer not null,
+       staff            integer not null,
+       invalidate_date  text not null,
+       foreign key (plate) references plate(ident),
+       foreign key (staff) references staff(ident)
+);
+```
+
 ## 1. List all departments
 
 Show all columns for every department.
