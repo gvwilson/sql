@@ -35,6 +35,8 @@
 1.  [Contributing](@/contributing/)
 1.  [Bibliography](@/bibliography/)
 1.  [Glossary](@/glossary/)
+1.  [Questions](@/questions/)
+1.  [Answers](@/answers/)
 1.  [Python](@/04_python/): using databases from Python
 1.  [R](@/06_r/): using databases from R
 1.  [PostgreSQL](@/07_psql/): client-server computing and permissions
