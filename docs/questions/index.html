@@ -95,45 +95,145 @@
 <span class="w">       </span><span class="k">foreign</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="p">(</span><span class="n">staff</span><span class="p">)</span><span class="w"> </span><span class="k">references</span><span class="w"> </span><span class="n">staff</span><span class="p">(</span><span class="n">ident</span><span class="p">)</span>
 <span class="p">);</span>
 </code></pre></div>
-<h2>1. List all departments</h2>
+<h2>Queries to Debug</h2>
+<h3>1. List all department names</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">dept</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">department</span><span class="p">;</span>
+</code></pre></div>
+<h3>2. Find staff older than 50</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">personal</span><span class="p">,</span><span class="w"> </span><span class="n">family</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">staff</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="s1">'50'</span><span class="p">;</span>
+</code></pre></div>
+<h3>3. Count the number of experiments</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">ident</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">experiment</span><span class="p">;</span>
+</code></pre></div>
+<h3>4. List all staff and their department names</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">personal</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="p">,</span><span class="w"> </span><span class="n">name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">staff</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">department</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">staff</span><span class="p">.</span><span class="n">ident</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">department</span><span class="p">.</span><span class="n">ident</span><span class="p">;</span>
+</code></pre></div>
+<h3>5. Find experiments that have not ended</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">experiment</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">ended</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</code></pre></div>
+<h3>6. Count staff per department</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">dept</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="n">dept</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">staff</span><span class="p">;</span>
+</code></pre></div>
+<h3>7. Find all plates for experiment 3</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">plate</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">ident</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+</code></pre></div>
+<h3>8. Find staff who performed experiments</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">personal</span><span class="p">,</span><span class="w"> </span><span class="n">family</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">staff</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">performed</span><span class="p">;</span>
+</code></pre></div>
+<h3>9. Find experiments of kind biology</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">experiment</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">kind</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="n">biology</span><span class="p">;</span>
+</code></pre></div>
+<h3>10. List staff who never performed an experiment</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">personal</span><span class="p">,</span><span class="w"> </span><span class="n">family</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">staff</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">ident</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">staff</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">performed</span><span class="p">);</span>
+</code></pre></div>
+<h3>11. List experiments and their plates</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">ident</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">filename</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">experiment</span><span class="w"> </span><span class="n">e</span>
+<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">plate</span><span class="w"> </span><span class="n">p</span><span class="p">;</span>
+</code></pre></div>
+<h3>12. Count plates per experiment</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">experiment</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">plate</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">filename</span><span class="p">;</span>
+</code></pre></div>
+<h3>13. Find departments with staff</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">department</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">ident</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">staff</span><span class="p">.</span><span class="n">dept</span><span class="p">;</span>
+</code></pre></div>
+<h3>14. Find staff who invalidated plates</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">personal</span><span class="p">,</span><span class="w"> </span><span class="n">family</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">staff</span><span class="w"> </span><span class="n">s</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">invalidated</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">ident</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">.</span><span class="n">plate</span><span class="p">;</span>
+</code></pre></div>
+<h3>15. Find plates invalidated after 2023</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">plate</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">invalidated</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">invalidate_date</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2023</span><span class="p">;</span>
+</code></pre></div>
+<h3>16. Count experiments per kind</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">kind</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">experiment</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">kind</span><span class="p">;</span>
+</code></pre></div>
+<h3>17. Find staff in the Biology department</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">personal</span><span class="p">,</span><span class="w"> </span><span class="n">family</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">staff</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">dept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Biology'</span><span class="p">;</span>
+</code></pre></div>
+<h3>18. Find experiments with invalidated plates</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">experiment</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">plate</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">ident</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">experiment</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">invalidated</span><span class="p">);</span>
+</code></pre></div>
+<h3>19. List staff and experiments they performed</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">personal</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">ident</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">staff</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">experiment</span><span class="w"> </span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">performed</span><span class="w"> </span><span class="n">p</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">ident</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">staff</span><span class="p">;</span>
+</code></pre></div>
+<h3>20. Find the department with the youngest average staff age</h3>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">dept</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">staff</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
+<span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+<h2>Queries to Write</h2>
+<h3>1. List all departments</h3>
 <p>Show all columns for every department.</p>
-<h2>2. List staff names and ages</h2>
+<h3>2. List staff names and ages</h3>
 <p>Show the personal name, family name, and age of all staff members.</p>
-<h2>3. Staff older than a given age</h2>
+<h3>3. Staff older than a given age</h3>
 <p>Find the personal and family names of staff who are older than 40.</p>
-<h2>4. Departments in a specific building</h2>
+<h3>4. Departments in a specific building</h3>
 <p>List the names of departments located in the building "Science Hall".</p>
-<h2>5. Experiments that have ended</h2>
+<h3>5. Experiments that have ended</h3>
 <p>List all experiments that have an end date.</p>
-<h2>6. Experiments of a given kind</h2>
+<h3>6. Experiments of a given kind</h3>
 <p>Show the identifiers and start dates of all experiments of kind "chemistry".</p>
-<h2>7. Count staff members</h2>
+<h3>7. Count staff members</h3>
 <p>How many staff members are in the database?</p>
-<h2>8. Staff per department</h2>
+<h3>8. Staff per department</h3>
 <p>List each department identifier and the number of staff assigned to it.</p>
-<h2>9. Staff with their department names</h2>
+<h3>9. Staff with their department names</h3>
 <p>List each staff member’s personal name, family name, and department name.</p>
-<h2>10. Experiments performed by staff</h2>
+<h3>10. Experiments performed by staff</h3>
 <p>List the experiment IDs along with the personal and family names of staff who performed them.</p>
-<h2>11. Plates for each experiment</h2>
+<h3>11. Plates for each experiment</h3>
 <p>List each experiment ID and the filename of every plate associated with it.</p>
-<h2>12. Number of plates per experiment</h2>
+<h3>12. Number of plates per experiment</h3>
 <p>Show each experiment ID and the number of plates uploaded for it.</p>
-<h2>13. Experiments with no end date</h2>
+<h3>13. Experiments with no end date</h3>
 <p>List experiments that are still ongoing.</p>
-<h2>14. Staff who performed experiments of a given kind</h2>
+<h3>14. Staff who performed experiments of a given kind</h3>
 <p>Find the personal and family names of staff who performed "biology" experiments.</p>
-<h2>15. Plates invalidated by staff</h2>
+<h3>15. Plates invalidated by staff</h3>
 <p>List the plate ID, invalidation date, and the family name of the staff member who invalidated it.</p>
-<h2>16. Plates invalidated more than once</h2>
+<h3>16. Plates invalidated more than once</h3>
 <p>Find plates that have been invalidated more than once.</p>
-<h2>17. Staff who never performed an experiment</h2>
+<h3>17. Staff who never performed an experiment</h3>
 <p>List staff members who have never performed any experiment.</p>
-<h2>18. Experiments with no plates</h2>
+<h3>18. Experiments with no plates</h3>
 <p>List experiments that have no associated plates.</p>
-<h2>19. Department with the most staff</h2>
+<h3>19. Department with the most staff</h3>
 <p>Find the department identifier that has the largest number of staff.</p>
-<h2>20. Staff involved in experiments with invalidated plates</h2>
+<h3>20. Staff involved in experiments with invalidated plates</h3>
 <p>List the distinct personal and family names of staff members who performed experiments that have at least one invalidated plate.</p>
 </main>
 <footer>
