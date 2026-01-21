@@ -5,6 +5,8 @@
   <figcaption>Surveys ER Diagram</figcaption>
 </figure>
 
+<a href="https://github.com/gvwilson/sql/raw/refs/heads/main/db/surveys.db">download surveys SQLite database file</a>
+
 1. Show each person's first and last name.
 1. Count the number of people
 1. List all people who supervise someone else.
