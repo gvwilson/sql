@@ -36,7 +36,8 @@ databases : \
 	${DB}/assays.db \
 	${DB}/contact_tracing.db \
 	${DB}/lab_log.db \
-	${DB}/penguins.db
+	${DB}/penguins.db \
+	${DB}/surveys.db
 
 ${DB}/assays.db: bin/create_assays_db.py
 	python $< $@
@@ -49,6 +50,9 @@ ${DB}/lab_log.db: bin/create_lab_log.py
 
 ${DB}/penguins.db : bin/create_penguins.py extras/penguins.csv
 	python $< $@ extras/penguins.csv
+
+${DB}/surveys.db : bin/create_surveys.py
+	python $< $@ 12345
 
 ## psql_db: create PostgreSQL penguins database
 psql_db: bin/create_penguins_psql.py
