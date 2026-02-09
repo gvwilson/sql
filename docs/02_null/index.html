@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Missing Values</title>
+<link href="../static/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="../static/page.css" rel="stylesheet" type="text/css"/>
+<link href="../static/pygments.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<nav>
+<a href="../">Home</a>
+      ·
+      <span class="dropdown">
+<a href="#">Lessons</a>
+<span class="dropdown-content" id="nav-lessons">
+<a href="../01_intro/">Introduction</a>
+<a href="../02_core/">Core Features</a>
+<a href="../02_null/">Missing Values</a>
+<a href="../02_group/">Aggregating and Grouping</a>
+<a href="../02_join/">Combining Information</a>
+<a href="../02_modify/">Modifying Data</a>
+<a href="../03_tools/">Tools</a>
+<a href="../05_advanced/">Advanced Features</a>
+<a href="../08_finale/">Conclusion</a>
+</span>
+</span>
+      ·
+      <span class="dropdown">
+<a href="#">Appendices</a>
+<span class="dropdown-content" id="nav-appendices">
+<a href="../license/">License</a>
+<a href="../conduct/">Code of Conduct</a>
+<a href="../contributing/">Contributing</a>
+<a href="../bibliography/">Bibliography</a>
+<a href="../glossary/">Glossary</a>
+<a href="../questions/">Questions</a>
+<a href="../answers/">Answers</a>
+<a href="../more/">More Questions</a>
+<a href="../04_python/">Python</a>
+<a href="../06_r/">R</a>
+<a href="../07_psql/">PostgreSQL</a>
+</span>
+</span>
+</nav>
+<main>
+<h1>Missing Values</h1>
+<p id="terms">Terms defined: <a class="term-defined" href="null">null</a>, <a class="term-defined" href="ternary_logic">ternary logic</a></p>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span>
+<span class="w">    </span><span class="n">flipper_length_mm</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">10</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">flipper_cm</span><span class="p">,</span>
+<span class="w">    </span><span class="n">body_mass_g</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1000</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">weight_kg</span><span class="p">,</span>
+<span class="w">    </span><span class="n">island</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">where_found</span>
+<span class="k">from</span><span class="w"> </span><span class="n">penguins</span>
+<span class="k">limit</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>| flipper_cm | weight_kg | where_found |
+|------------|-----------|-------------|
+| 18.1       | 3.75      | Torgersen   |
+| 18.6       | 3.8       | Torgersen   |
+| 19.5       | 3.25      | Torgersen   |
+|            |           | Torgersen   |
+| 19.3       | 3.45      | Torgersen   |
+</code></pre></div>
+<ul>
+<li>SQL uses a special value <a href="../glossary/#null"><code>null</code></a> to representing missing data<ul>
+<li>Not 0 or empty string, but "I don't know"</li>
+</ul>
+</li>
+<li>Flipper length and body weight not known for one of the first five penguins</li>
+<li>"I don't know" divided by 10 or 1000 is "I don't know"</li>
+</ul>
+<h2 class="exercise">Exercise</h2>
+<p>Use SQLite's <code>.nullvalue</code> command
+to change the printed representation of null to the string <code>null</code>
+and then re-run the previous query.
+When will displaying null as <code>null</code> be easier to understand?
+When might it be misleading?</p>
+<h2>Null Equality</h2>
+<ul>
+<li>Repeated from earlier</li>
+</ul>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="k">distinct</span>
+<span class="w">    </span><span class="n">species</span><span class="p">,</span>
+<span class="w">    </span><span class="n">sex</span><span class="p">,</span>
+<span class="w">    </span><span class="n">island</span>
+<span class="k">from</span><span class="w"> </span><span class="n">penguins</span>
+<span class="k">where</span><span class="w"> </span><span class="n">island</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Biscoe'</span><span class="p">;</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>| species |  sex   | island |
+|---------|--------|--------|
+| Adelie  | FEMALE | Biscoe |
+| Adelie  | MALE   | Biscoe |
+| Gentoo  | FEMALE | Biscoe |
+| Gentoo  | MALE   | Biscoe |
+| Gentoo  |        | Biscoe |
+</code></pre></div>
+<ul>
+<li>If we ask for female penguins the row with the missing sex drops out</li>
+</ul>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="k">distinct</span>
+<span class="w">    </span><span class="n">species</span><span class="p">,</span>
+<span class="w">    </span><span class="n">sex</span><span class="p">,</span>
+<span class="w">    </span><span class="n">island</span>
+<span class="k">from</span><span class="w"> </span><span class="n">penguins</span>
+<span class="k">where</span><span class="w"> </span><span class="n">island</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Biscoe'</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'FEMALE'</span><span class="p">;</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>| species |  sex   | island |
+|---------|--------|--------|
+| Adelie  | FEMALE | Biscoe |
+| Gentoo  | FEMALE | Biscoe |
+</code></pre></div>
+<h2>Null Inequality</h2>
+<ul>
+<li>But if we ask for penguins that <em>aren't</em> female it drops out as well</li>
+</ul>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="k">distinct</span>
+<span class="w">    </span><span class="n">species</span><span class="p">,</span>
+<span class="w">    </span><span class="n">sex</span><span class="p">,</span>
+<span class="w">    </span><span class="n">island</span>
+<span class="k">from</span><span class="w"> </span><span class="n">penguins</span>
+<span class="k">where</span><span class="w"> </span><span class="n">island</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Biscoe'</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">sex</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">'FEMALE'</span><span class="p">;</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>| species | sex  | island |
+|---------|------|--------|
+| Adelie  | MALE | Biscoe |
+| Gentoo  | MALE | Biscoe |
+</code></pre></div>
+<h2>Ternary Logic</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">null</span><span class="p">;</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>| null = null |
+|-------------|
+|             |
+</code></pre></div>
+<ul>
+<li>If we don't know the left and right values, we don't know if they're equal or not</li>
+<li>So the result is <code>null</code></li>
+<li>Get the same answer for <code>null != null</code></li>
+<li><a href="../glossary/#ternary_logic">Ternary logic</a></li>
+</ul>
+<table>
+<tbody>
+<tr>
+<th colspan="4">equality</th>
+</tr>
+<tr>
+<th></th>
+<th>X</th>
+<th>Y</th>
+<th>null</th>
+</tr>
+<tr>
+<th>X</th>
+<td>true</td>
+<td>false</td>
+<td>null</td>
+</tr>
+<tr>
+<th>Y</th>
+<td>false</td>
+<td>true</td>
+<td>null</td>
+</tr>
+<tr>
+<th>null</th>
+<td>null</td>
+<td>null</td>
+<td>null</td>
+</tr>
+</tbody>
+</table>
+<h2>Handling Null Safely</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span>
+<span class="w">    </span><span class="n">species</span><span class="p">,</span>
+<span class="w">    </span><span class="n">sex</span><span class="p">,</span>
+<span class="w">    </span><span class="n">island</span>
+<span class="k">from</span><span class="w"> </span><span class="n">penguins</span>
+<span class="k">where</span><span class="w"> </span><span class="n">sex</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">null</span><span class="p">;</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>| species | sex |  island   |
+|---------|-----|-----------|
+| Adelie  |     | Torgersen |
+| Adelie  |     | Torgersen |
+| Adelie  |     | Torgersen |
+| Adelie  |     | Torgersen |
+| Adelie  |     | Torgersen |
+| Adelie  |     | Dream     |
+| Gentoo  |     | Biscoe    |
+| Gentoo  |     | Biscoe    |
+| Gentoo  |     | Biscoe    |
+| Gentoo  |     | Biscoe    |
+| Gentoo  |     | Biscoe    |
+</code></pre></div>
+<ul>
+<li>Use <code>is null</code> and <code>is not null</code> to handle null safely</li>
+<li>Other parts of SQL handle nulls specially</li>
+</ul>
+<h2 class="exercise">Exercise</h2>
+<ol>
+<li>
+<p>Write a query to find penguins whose body mass is known but whose sex is not.</p>
+</li>
+<li>
+<p>Write another query to find penguins whose sex is known but whose body mass is not.</p>
+</li>
+</ol>
+<h2 class="aside">Check Understanding</h2>
+<figure id="f:core_missing_concept_map">
+<img alt="box and arrow diagram of concepts related to null values in SQL" src="core_missing_concept_map.svg"/>
+<figcaption>Figure 1: Missing Value Concepts</figcaption>
+</figure>
+</main>
+<footer>
+<div class="row">
+<div class="col-3 left">
+	  ⇐ <a href="../02_core/">Core Features</a>
+</div>
+<div class="col-6 center">
+<a href="../"></a>
+	  © 2025
+	  <a href="../#acknowledgments">the authors</a>
+</div>
+<div class="col-3 right">
+<a href="../02_group/">Aggregating and Grouping</a> ⇒
+	</div>
+</div>
+</footer>
+</body>
+</html>

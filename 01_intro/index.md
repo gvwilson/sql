@@ -61,7 +61,12 @@
   <figcaption>Concepts</figcaption>
 </figure>
 
-## Connecting to Database {: .aside}
+## Connecting to a Database {: .aside}
+
+-   The `penguins` database contains two tables
+    -   `penguins` is all the [Palmer Penguins][palmer_penguins] data
+    -   `little_penguins` is a subset used in our first few queries
+        to keep output readable
 
 -   Using [DB Browser for SQLite](https://sqlitebrowser.org/):
     -   Open the application
@@ -75,17 +80,12 @@
 ```{.sh data-file="connect_penguins.sh"}
 sqlite3 db/penguins.db
 ```
-
--   Note: the `penguins` database contains two tables
-    -   `penguins` is all the [Palmer Penguins][palmer_penguins] data
-    -   `little_penguins` is a subset used in our first few queries
-        to keep output readable
 -   Not actually a query: starts an interactive session with the database in `db/penguins.db`
 -   Alternative: provide a single query on the command line
     <code>sqlite3 <em>database</em> "<em>query</em>"</code>
 -   Or put query in file and run <code>sqlite3 <em>database</em> < <em>filename</em></code>
 
-> To disconnect from an interactive database session,
+> To disconnect from a command-line database session,
 > type Control-D or `.quit` on a line of its own.
 > You may need to type a semi-colon `;` to close any unfinished query
 > before SQLite will recognize your attempt to escape.

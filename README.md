@@ -13,6 +13,10 @@
 
 1.  [Introduction](@/01_intro/): where we're going and why
 1.  [Core Features](@/02_core/): getting values from tables
+1.  [Missing Values](@/02_null/): handling data that's not there
+1.  [Aggregating and Grouping](@/02_group/): combining data
+1.  [Combining Information](@/02_join/): working with multiple tables
+1.  [Modifying Data](@/02_modify/): create, delete, and change
 1.  [Tools](@/03_tools/): Miscellaneous things that make life easier
 1.  [Advanced Features](@/05_advanced/): when you need 'em, you need 'em
 1.  [Conclusion](@/08_finale/): where we've been and what comes next
