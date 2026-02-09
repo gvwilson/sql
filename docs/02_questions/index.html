@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SQL Practice Questions</title>
+<link href="../static/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="../static/page.css" rel="stylesheet" type="text/css"/>
+<link href="../static/pygments.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<nav>
+<a href="../">Home</a>
+      ·
+      <span class="dropdown">
+<a href="#">Lessons</a>
+<span class="dropdown-content" id="nav-lessons">
+<a href="../01_intro/">Introduction</a>
+<a href="../02_core/">Core Features</a>
+<a href="../02_null/">Missing Values</a>
+<a href="../02_group/">Aggregating and Grouping</a>
+<a href="../02_join/">Combining Information</a>
+<a href="../02_modify/">Modifying Data</a>
+<a href="../02_questions/">Practice Questions</a>
+<a href="../03_tools/">Tools</a>
+<a href="../05_advanced/">Advanced Features</a>
+<a href="../08_finale/">Conclusion</a>
+</span>
+</span>
+      ·
+      <span class="dropdown">
+<a href="#">Appendices</a>
+<span class="dropdown-content" id="nav-appendices">
+<a href="../license/">License</a>
+<a href="../conduct/">Code of Conduct</a>
+<a href="../contributing/">Contributing</a>
+<a href="../bibliography/">Bibliography</a>
+<a href="../glossary/">Glossary</a>
+<a href="../02_answers/">Practice Answers</a>
+<a href="../more/">More Questions</a>
+<a href="../04_python/">Python</a>
+<a href="../06_r/">R</a>
+<a href="../07_psql/">PostgreSQL</a>
+</span>
+</span>
+</nav>
+<main>
+<h1>SQL Practice Questions</h1>
+<figure id="f:questions_er">
+<img alt="entity-relationship diagram showing logical structure of assay database" src="tools_assays_er.svg"/>
+<figcaption>Figure 1: Assay ER Diagram</figcaption>
+</figure>
+<figure id="f:questions_tables">
+<img alt="table-level diagram of assay database showing primary and foreign key relationships" src="tools_assays_tables.svg"/>
+<figcaption>Figure 2: Assay Database Table Diagram</figcaption>
+</figure>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">department</span><span class="p">(</span>
+<span class="w">       </span><span class="n">ident</span><span class="w">            </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="k">primary</span><span class="w"> </span><span class="k">key</span><span class="p">,</span>
+<span class="w">       </span><span class="n">name</span><span class="w">             </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">building</span><span class="w">         </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">staff</span><span class="p">(</span>
+<span class="w">       </span><span class="n">ident</span><span class="w">            </span><span class="nb">integer</span><span class="w"> </span><span class="k">primary</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="n">autoincrement</span><span class="p">,</span>
+<span class="w">       </span><span class="n">personal</span><span class="w">         </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">family</span><span class="w">           </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">dept</span><span class="w">             </span><span class="nb">text</span><span class="p">,</span>
+<span class="w">       </span><span class="n">age</span><span class="w">              </span><span class="nb">integer</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="k">foreign</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="p">(</span><span class="n">dept</span><span class="p">)</span><span class="w"> </span><span class="k">references</span><span class="w"> </span><span class="n">department</span><span class="p">(</span><span class="n">ident</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">experiment</span><span class="p">(</span>
+<span class="w">       </span><span class="n">ident</span><span class="w">            </span><span class="nb">integer</span><span class="w"> </span><span class="k">primary</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="n">autoincrement</span><span class="p">,</span>
+<span class="w">       </span><span class="n">kind</span><span class="w">             </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">started</span><span class="w">          </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">ended</span><span class="w">            </span><span class="nb">text</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">performed</span><span class="p">(</span>
+<span class="w">       </span><span class="n">staff</span><span class="w">            </span><span class="nb">integer</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">experiment</span><span class="w">       </span><span class="nb">integer</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="k">foreign</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="p">(</span><span class="n">staff</span><span class="p">)</span><span class="w"> </span><span class="k">references</span><span class="w"> </span><span class="n">staff</span><span class="p">(</span><span class="n">ident</span><span class="p">),</span>
+<span class="w">       </span><span class="k">foreign</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="p">(</span><span class="n">experiment</span><span class="p">)</span><span class="w"> </span><span class="k">references</span><span class="w"> </span><span class="n">experiment</span><span class="p">(</span><span class="n">ident</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">plate</span><span class="p">(</span>
+<span class="w">       </span><span class="n">ident</span><span class="w">            </span><span class="nb">integer</span><span class="w"> </span><span class="k">primary</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="n">autoincrement</span><span class="p">,</span>
+<span class="w">       </span><span class="n">experiment</span><span class="w">       </span><span class="nb">integer</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">upload_date</span><span class="w">      </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">filename</span><span class="w">         </span><span class="nb">text</span><span class="w"> </span><span class="k">unique</span><span class="p">,</span>
+<span class="w">       </span><span class="k">foreign</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="p">(</span><span class="n">experiment</span><span class="p">)</span><span class="w"> </span><span class="k">references</span><span class="w"> </span><span class="n">experiment</span><span class="p">(</span><span class="n">ident</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">invalidated</span><span class="p">(</span>
+<span class="w">       </span><span class="n">plate</span><span class="w">            </span><span class="nb">integer</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">staff</span><span class="w">            </span><span class="nb">integer</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="n">invalidate_date</span><span class="w">  </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">       </span><span class="k">foreign</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="p">(</span><span class="n">plate</span><span class="p">)</span><span class="w"> </span><span class="k">references</span><span class="w"> </span><span class="n">plate</span><span class="p">(</span><span class="n">ident</span><span class="p">),</span>
+<span class="w">       </span><span class="k">foreign</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="p">(</span><span class="n">staff</span><span class="p">)</span><span class="w"> </span><span class="k">references</span><span class="w"> </span><span class="n">staff</span><span class="p">(</span><span class="n">ident</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+<h2>1. List all departments</h2>
+<p>Show all columns for every department.</p>
+<h2>2. List staff names and ages</h2>
+<p>Show the personal name, family name, and age of all staff members.</p>
+<h2>3. Staff older than a given age</h2>
+<p>Find the personal and family names of staff who are older than 40.</p>
+<h2>4. Departments in a specific building</h2>
+<p>List the names of departments located in the building "Science Hall".</p>
+<h2>5. Experiments that have ended</h2>
+<p>List all experiments that have an end date.</p>
+<h2>6. Experiments of a given kind</h2>
+<p>Show the identifiers and start dates of all experiments of kind "chemistry".</p>
+<h2>7. Count staff members</h2>
+<p>How many staff members are in the database?</p>
+<h2>8. Staff per department</h2>
+<p>List each department identifier and the number of staff assigned to it.</p>
+<h2>9. Staff with their department names</h2>
+<p>List each staff member’s personal name, family name, and department name.</p>
+<h2>10. Experiments performed by staff</h2>
+<p>List the experiment IDs along with the personal and family names of staff who performed them.</p>
+<h2>11. Plates for each experiment</h2>
+<p>List each experiment ID and the filename of every plate associated with it.</p>
+<h2>12. Number of plates per experiment</h2>
+<p>Show each experiment ID and the number of plates uploaded for it.</p>
+<h2>13. Experiments with no end date</h2>
+<p>List experiments that are still ongoing.</p>
+<h2>14. Staff who performed experiments of a given kind</h2>
+<p>Find the personal and family names of staff who performed "biology" experiments.</p>
+<h2>15. Plates invalidated by staff</h2>
+<p>List the plate ID, invalidation date, and the family name of the staff member who invalidated it.</p>
+<h2>16. Plates invalidated more than once</h2>
+<p>Find plates that have been invalidated more than once.</p>
+<h2>17. Staff who never performed an experiment</h2>
+<p>List staff members who have never performed any experiment.</p>
+<h2>18. Experiments with no plates</h2>
+<p>List experiments that have no associated plates.</p>
+<h2>19. Department with the most staff</h2>
+<p>Find the department identifier that has the largest number of staff.</p>
+<h2>20. Staff involved in experiments with invalidated plates</h2>
+<p>List the distinct personal and family names of staff members who performed experiments that have at least one invalidated plate.</p>
+</main>
+<footer>
+<div class="row">
+<div class="col-3 left">
+	  ⇐ <a href="../02_modify/">Modifying Data</a>
+</div>
+<div class="col-6 center">
+<a href="../"></a>
+	  © 2025
+	  <a href="../#acknowledgments">the authors</a>
+</div>
+<div class="col-3 right">
+<a href="../03_tools/">Tools</a> ⇒
+	</div>
+</div>
+</footer>
+</body>
+</html>

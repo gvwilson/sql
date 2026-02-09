@@ -17,6 +17,7 @@
 1.  [Aggregating and Grouping](@/02_group/): combining data
 1.  [Combining Information](@/02_join/): working with multiple tables
 1.  [Modifying Data](@/02_modify/): create, delete, and change
+1.  [Practice Questions](@/02_questions/)
 1.  [Tools](@/03_tools/): Miscellaneous things that make life easier
 1.  [Advanced Features](@/05_advanced/): when you need 'em, you need 'em
 1.  [Conclusion](@/08_finale/): where we've been and what comes next
@@ -39,8 +40,7 @@
 1.  [Contributing](@/contributing/)
 1.  [Bibliography](@/bibliography/)
 1.  [Glossary](@/glossary/)
-1.  [Questions](@/questions/)
-1.  [Answers](@/answers/)
+1.  [Practice Answers](@/02_answers/)
 1.  [More Questions](@/more/)
 1.  [Python](@/04_python/): using databases from Python
 1.  [R](@/06_r/): using databases from R
