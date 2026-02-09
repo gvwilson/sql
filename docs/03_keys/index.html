@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Keys</title>
+<link href="../static/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="../static/page.css" rel="stylesheet" type="text/css"/>
+<link href="../static/pygments.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<nav>
+<a href="../">Home</a>
+      ·
+      <span class="dropdown">
+<a href="#">Lessons</a>
+<span class="dropdown-content" id="nav-lessons">
+<a href="../01_intro/">Introduction</a>
+<a href="../02_core/">Core Features</a>
+<a href="../02_null/">Missing Values</a>
+<a href="../02_group/">Aggregating and Grouping</a>
+<a href="../02_join/">Combining Information</a>
+<a href="../02_modify/">Modifying Data</a>
+<a href="../02_questions/">Practice Questions</a>
+<a href="../03_keys/">Keys</a>
+<a href="../03_cond/">Conditionals</a>
+<a href="../03_subquery/">Subqueries</a>
+<a href="../03_compare/">More Comparisons</a>
+<a href="../03_tools/">Tools</a>
+<a href="../03_questions/">Practice Questions</a>
+<a href="../05_advanced/">Advanced Features</a>
+<a href="../08_finale/">Conclusion</a>
+</span>
+</span>
+      ·
+      <span class="dropdown">
+<a href="#">Appendices</a>
+<span class="dropdown-content" id="nav-appendices">
+<a href="../license/">License</a>
+<a href="../conduct/">Code of Conduct</a>
+<a href="../contributing/">Contributing</a>
+<a href="../bibliography/">Bibliography</a>
+<a href="../glossary/">Glossary</a>
+<a href="../02_answers/">Practice Answers</a>
+<a href="../04_python/">Python</a>
+<a href="../06_r/">R</a>
+<a href="../07_psql/">PostgreSQL</a>
+</span>
+</span>
+</nav>
+<main>
+<h1>Keys</h1>
+<p id="terms">Terms defined: <a class="term-defined" href="1_to_1">1-to-1 relation</a>, <a class="term-defined" href="1_to_many">1-to-many relation</a>, <a class="term-defined" href="autoincrement">autoincrement</a>, <a class="term-defined" href="foreign_key">foreign key</a>, <a class="term-defined" href="join_table">join table</a>, <a class="term-defined" href="many_to_many">many-to-many relation</a>, <a class="term-defined" href="primary_key">primary key</a></p>
+<h2>Defining a Primary Key</h2>
+<ul>
+<li>Can use any field (or combination of fields) in a table as a <a href="../glossary/#primary_key">primary key</a>
+    as long as value(s) unique for each record</li>
+<li>Uniquely identifies a particular record in a particular table</li>
+</ul>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">create</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">lab_equipment</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">size</span><span class="w"> </span><span class="nb">real</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">    </span><span class="n">color</span><span class="w"> </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">    </span><span class="n">num</span><span class="w"> </span><span class="nb">integer</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">,</span>
+<span class="w">    </span><span class="k">primary</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="p">(</span><span class="k">size</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">lab_equipment</span><span class="w"> </span><span class="k">values</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s1">'blue'</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s1">'green'</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span>
+<span class="p">(</span><span class="mi">2</span><span class="p">.</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s1">'blue'</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">lab_equipment</span><span class="p">;</span>
+
+<span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">lab_equipment</span><span class="w"> </span><span class="k">values</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s1">'green'</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>| size | color | num |
+|------|-------|-----|
+| 1.5  | blue  | 2   |
+| 1.5  | green | 1   |
+| 2.5  | blue  | 1   |
+Runtime error near line 17: UNIQUE constraint failed: lab_equipment.size, lab_equipment.color (19)
+</code></pre></div>
+<h2 class="exercise">Exercise</h2>
+<p>Does the <code>penguins</code> table have a primary key?
+If so, what is it?
+What about the <code>work</code> and <code>job</code> tables?</p>
+<h2>Autoincrementing and Primary Keys</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">create</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">ident</span><span class="w"> </span><span class="nb">integer</span><span class="w"> </span><span class="k">primary</span><span class="w"> </span><span class="k">key</span><span class="w"> </span><span class="n">autoincrement</span><span class="p">,</span>
+<span class="w">    </span><span class="n">name</span><span class="w"> </span><span class="nb">text</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span>
+<span class="p">);</span>
+<span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="k">values</span>
+<span class="p">(</span><span class="k">null</span><span class="p">,</span><span class="w"> </span><span class="s1">'mik'</span><span class="p">),</span>
+<span class="p">(</span><span class="k">null</span><span class="p">,</span><span class="w"> </span><span class="s1">'po'</span><span class="p">),</span>
+<span class="p">(</span><span class="k">null</span><span class="p">,</span><span class="w"> </span><span class="s1">'tay'</span><span class="p">);</span>
+<span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">person</span><span class="p">;</span>
+<span class="k">insert</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="k">values</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s1">'prevented'</span><span class="p">);</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>| ident | name |
+|-------|------|
+| 1     | mik  |
+| 2     | po   |
+| 3     | tay  |
+Runtime error near line 12: UNIQUE constraint failed: person.ident (19)
+</code></pre></div>
+<ul>
+<li>Database <a href="../glossary/#autoincrement">autoincrements</a> <code>ident</code> each time a new record is added</li>
+<li>Common to use that field as the primary key<ul>
+<li>Unique for each record</li>
+</ul>
+</li>
+<li>If Mik changes their name again,
+    we only have to change one fact in the database</li>
+<li>Downside: manual queries are harder to read (who is person 17?)</li>
+</ul>
+<h2 class="aside">Internal Tables</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">sqlite_sequence</span><span class="p">;</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>|  name  | seq |
+|--------|-----|
+| person | 3   |
+</code></pre></div>
+<ul>
+<li>Sequence numbers are <em>not</em> reset when rows are deleted<ul>
+<li>In part so that they can be used as primary keys</li>
+</ul>
+</li>
+</ul>
+<h2 class="aside">M-to-N Relationships</h2>
+<ul>
+<li>Relationships between entities are usually characterized as:<ul>
+<li><a href="../glossary/#1_to_1">1-to-1</a>:
+    fields in the same record</li>
+<li><a href="../glossary/#1_to_many">1-to-many</a>:
+    the many have a <a href="../glossary/#foreign_key">foreign key</a> referring to the one's primary key</li>
+<li><a href="../glossary/#many_to_many">many-to-many</a>:
+    don't know how many keys to add to records ("maximum" never is)</li>
+</ul>
+</li>
+<li>Nearly-universal solution is a <a href="../glossary/#join_table">join table</a><ul>
+<li>Each record is a pair of foreign keys</li>
+<li>I.e., each record is the fact that records A and B are related</li>
+</ul>
+</li>
+</ul>
+<h2 class="exercise">Exercise</h2>
+<p>Are you able to modify the values stored in <code>sqlite_sequence</code>?
+In particular,
+are you able to reset the values so that
+the same sequence numbers are generated again?</p>
+</main>
+<footer>
+<div class="row">
+<div class="col-3 left">
+	  ⇐ <a href="../02_questions/">Practice Questions</a>
+</div>
+<div class="col-6 center">
+<a href="../"></a>
+	  © 2025
+	  <a href="../#acknowledgments">the authors</a>
+</div>
+<div class="col-3 right">
+<a href="../03_cond/">Conditionals</a> ⇒
+	</div>
+</div>
+</footer>
+</body>
+</html>

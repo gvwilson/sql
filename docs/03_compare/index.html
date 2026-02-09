@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Complex Comparisons</title>
+<link href="../static/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="../static/page.css" rel="stylesheet" type="text/css"/>
+<link href="../static/pygments.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<nav>
+<a href="../">Home</a>
+      ·
+      <span class="dropdown">
+<a href="#">Lessons</a>
+<span class="dropdown-content" id="nav-lessons">
+<a href="../01_intro/">Introduction</a>
+<a href="../02_core/">Core Features</a>
+<a href="../02_null/">Missing Values</a>
+<a href="../02_group/">Aggregating and Grouping</a>
+<a href="../02_join/">Combining Information</a>
+<a href="../02_modify/">Modifying Data</a>
+<a href="../02_questions/">Practice Questions</a>
+<a href="../03_keys/">Keys</a>
+<a href="../03_cond/">Conditionals</a>
+<a href="../03_subquery/">Subqueries</a>
+<a href="../03_compare/">More Comparisons</a>
+<a href="../03_tools/">Tools</a>
+<a href="../03_questions/">Practice Questions</a>
+<a href="../05_advanced/">Advanced Features</a>
+<a href="../08_finale/">Conclusion</a>
+</span>
+</span>
+      ·
+      <span class="dropdown">
+<a href="#">Appendices</a>
+<span class="dropdown-content" id="nav-appendices">
+<a href="../license/">License</a>
+<a href="../conduct/">Code of Conduct</a>
+<a href="../contributing/">Contributing</a>
+<a href="../bibliography/">Bibliography</a>
+<a href="../glossary/">Glossary</a>
+<a href="../02_answers/">Practice Answers</a>
+<a href="../04_python/">Python</a>
+<a href="../06_r/">R</a>
+<a href="../07_psql/">PostgreSQL</a>
+</span>
+</span>
+</nav>
+<main>
+<h1>Complex Comparisons</h1>
+
+<h2>Comparing Individual Values to Aggregates</h2>
+<ul>
+<li>Go back to the original penguins database</li>
+</ul>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="n">body_mass_g</span>
+<span class="k">from</span><span class="w"> </span><span class="n">penguins</span>
+<span class="k">where</span>
+<span class="w">    </span><span class="n">body_mass_g</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="k">select</span><span class="w"> </span><span class="k">avg</span><span class="p">(</span><span class="n">body_mass_g</span><span class="p">)</span>
+<span class="w">        </span><span class="k">from</span><span class="w"> </span><span class="n">penguins</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="k">limit</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>| body_mass_g |
+|-------------|
+| 4675.0      |
+| 4250.0      |
+| 4400.0      |
+| 4500.0      |
+| 4650.0      |
+</code></pre></div>
+<ul>
+<li>Get average body mass in subquery</li>
+<li>Compare each row against that</li>
+<li>Requires two scans of the data, but no way to avoid that<ul>
+<li>Except calculating a running total each time a penguin is added to the table</li>
+</ul>
+</li>
+<li>Null values aren't included in the average or in the final results</li>
+</ul>
+<h2 class="exercise">Exercise</h2>
+<p>Use a subquery to find the number of penguins
+that weigh the same as the lightest penguin.</p>
+<h2>Comparing Individual Values to Aggregates Within Groups</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span>
+<span class="w">    </span><span class="n">penguins</span><span class="p">.</span><span class="n">species</span><span class="p">,</span>
+<span class="w">    </span><span class="n">penguins</span><span class="p">.</span><span class="n">body_mass_g</span><span class="p">,</span>
+<span class="w">    </span><span class="n">round</span><span class="p">(</span><span class="n">averaged</span><span class="p">.</span><span class="n">avg_mass_g</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">avg_mass_g</span>
+<span class="k">from</span><span class="w"> </span><span class="n">penguins</span><span class="w"> </span><span class="k">inner</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">select</span>
+<span class="w">        </span><span class="n">species</span><span class="p">,</span>
+<span class="w">        </span><span class="k">avg</span><span class="p">(</span><span class="n">body_mass_g</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">avg_mass_g</span>
+<span class="w">    </span><span class="k">from</span><span class="w"> </span><span class="n">penguins</span>
+<span class="w">    </span><span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">species</span>
+<span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">averaged</span>
+<span class="w">    </span><span class="k">on</span><span class="w"> </span><span class="n">penguins</span><span class="p">.</span><span class="n">species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">averaged</span><span class="p">.</span><span class="n">species</span>
+<span class="k">where</span><span class="w"> </span><span class="n">penguins</span><span class="p">.</span><span class="n">body_mass_g</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">averaged</span><span class="p">.</span><span class="n">avg_mass_g</span>
+<span class="k">limit</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>| species | body_mass_g | avg_mass_g |
+|---------|-------------|------------|
+| Adelie  | 3750.0      | 3700.7     |
+| Adelie  | 3800.0      | 3700.7     |
+| Adelie  | 4675.0      | 3700.7     |
+| Adelie  | 4250.0      | 3700.7     |
+| Adelie  | 3800.0      | 3700.7     |
+</code></pre></div>
+<ul>
+<li>Subquery runs first to create temporary table <code>averaged</code> with average mass per species</li>
+<li>Join that with <code>penguins</code></li>
+<li>Filter to find penguins heavier than average within their species</li>
+</ul>
+<h2 class="exercise">Exercise</h2>
+<p>Use a subquery to find the number of penguins
+that weigh the same as the lightest penguin of the same sex and species.</p>
+</main>
+<footer>
+<div class="row">
+<div class="col-3 left">
+	  ⇐ <a href="../03_subquery/">Subqueries</a>
+</div>
+<div class="col-6 center">
+<a href="../"></a>
+	  © 2025
+	  <a href="../#acknowledgments">the authors</a>
+</div>
+<div class="col-3 right">
+<a href="../03_tools/">Tools</a> ⇒
+	</div>
+</div>
+</footer>
+</body>
+</html>

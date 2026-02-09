@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Subqueries</title>
+<link href="../static/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="../static/page.css" rel="stylesheet" type="text/css"/>
+<link href="../static/pygments.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<nav>
+<a href="../">Home</a>
+      ·
+      <span class="dropdown">
+<a href="#">Lessons</a>
+<span class="dropdown-content" id="nav-lessons">
+<a href="../01_intro/">Introduction</a>
+<a href="../02_core/">Core Features</a>
+<a href="../02_null/">Missing Values</a>
+<a href="../02_group/">Aggregating and Grouping</a>
+<a href="../02_join/">Combining Information</a>
+<a href="../02_modify/">Modifying Data</a>
+<a href="../02_questions/">Practice Questions</a>
+<a href="../03_keys/">Keys</a>
+<a href="../03_cond/">Conditionals</a>
+<a href="../03_subquery/">Subqueries</a>
+<a href="../03_compare/">More Comparisons</a>
+<a href="../03_tools/">Tools</a>
+<a href="../03_questions/">Practice Questions</a>
+<a href="../05_advanced/">Advanced Features</a>
+<a href="../08_finale/">Conclusion</a>
+</span>
+</span>
+      ·
+      <span class="dropdown">
+<a href="#">Appendices</a>
+<span class="dropdown-content" id="nav-appendices">
+<a href="../license/">License</a>
+<a href="../conduct/">Code of Conduct</a>
+<a href="../contributing/">Contributing</a>
+<a href="../bibliography/">Bibliography</a>
+<a href="../glossary/">Glossary</a>
+<a href="../02_answers/">Practice Answers</a>
+<a href="../04_python/">Python</a>
+<a href="../06_r/">R</a>
+<a href="../07_psql/">PostgreSQL</a>
+</span>
+</span>
+</nav>
+<main>
+<h1>Subqueries</h1>
+<p id="terms">Terms defined: <a class="term-defined" href="cte">common table expression (CTE)</a>, <a class="term-defined" href="subquery">subquery</a></p>
+<h2>Negating Incorrectly</h2>
+<ul>
+<li>Who doesn't calibrate?</li>
+</ul>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="k">distinct</span><span class="w"> </span><span class="n">person</span>
+<span class="k">from</span><span class="w"> </span><span class="k">work</span>
+<span class="k">where</span><span class="w"> </span><span class="n">job</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">'calibrate'</span><span class="p">;</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>| person |
+|--------|
+| mik    |
+| po     |
+| tay    |
+</code></pre></div>
+<ul>
+<li>But Mik <em>does</em> calibrate</li>
+<li>Problem is that there's an entry for Mik cleaning</li>
+<li>And since <code>'clean' != 'calibrate'</code>, that row is included in the results</li>
+<li>We need a different approach…</li>
+</ul>
+<h2>Set Membership</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="o">*</span>
+<span class="k">from</span><span class="w"> </span><span class="k">work</span>
+<span class="k">where</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="p">(</span><span class="s1">'mik'</span><span class="p">,</span><span class="w"> </span><span class="s1">'tay'</span><span class="p">);</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>| person |   job    |
+|--------|----------|
+| po     | clean    |
+| po     | complain |
+</code></pre></div>
+<ul>
+<li><code>in <em>values</em></code> and <code>not in <em>values</em></code> do exactly what you expect</li>
+</ul>
+<h2>Subqueries</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="k">distinct</span><span class="w"> </span><span class="n">person</span>
+<span class="k">from</span><span class="w"> </span><span class="k">work</span>
+<span class="k">where</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">select</span><span class="w"> </span><span class="k">distinct</span><span class="w"> </span><span class="n">person</span>
+<span class="w">    </span><span class="k">from</span><span class="w"> </span><span class="k">work</span>
+<span class="w">    </span><span class="k">where</span><span class="w"> </span><span class="n">job</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'calibrate'</span>
+<span class="p">);</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>| person |
+|--------|
+| po     |
+| tay    |
+</code></pre></div>
+<ul>
+<li>Use a <a href="../glossary/#subquery">subquery</a> to select the people who <em>do</em> calibrate</li>
+<li>Then select all the people who <em>aren't</em> in that set</li>
+<li>Initially feels odd, but subqueries are useful in other ways</li>
+</ul>
+<h2>Common Table Expressions</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">with</span><span class="w"> </span><span class="n">grouped</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">select</span>
+<span class="w">        </span><span class="n">species</span><span class="p">,</span>
+<span class="w">        </span><span class="k">avg</span><span class="p">(</span><span class="n">body_mass_g</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">avg_mass_g</span>
+<span class="w">    </span><span class="k">from</span><span class="w"> </span><span class="n">penguins</span>
+<span class="w">    </span><span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">species</span>
+<span class="p">)</span>
+
+<span class="k">select</span>
+<span class="w">    </span><span class="n">penguins</span><span class="p">.</span><span class="n">species</span><span class="p">,</span>
+<span class="w">    </span><span class="n">penguins</span><span class="p">.</span><span class="n">body_mass_g</span><span class="p">,</span>
+<span class="w">    </span><span class="n">round</span><span class="p">(</span><span class="n">grouped</span><span class="p">.</span><span class="n">avg_mass_g</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">avg_mass_g</span>
+<span class="k">from</span><span class="w"> </span><span class="n">penguins</span><span class="w"> </span><span class="k">inner</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">grouped</span>
+<span class="k">where</span><span class="w"> </span><span class="n">penguins</span><span class="p">.</span><span class="n">body_mass_g</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">grouped</span><span class="p">.</span><span class="n">avg_mass_g</span>
+<span class="k">limit</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>| species | body_mass_g | avg_mass_g |
+|---------|-------------|------------|
+| Adelie  | 3750.0      | 3700.7     |
+| Adelie  | 3800.0      | 3700.7     |
+| Adelie  | 4675.0      | 3700.7     |
+| Adelie  | 4250.0      | 3700.7     |
+| Adelie  | 3800.0      | 3700.7     |
+</code></pre></div>
+<ul>
+<li>Use <a href="../glossary/#cte">common table expression</a> (CTE) to make queries clearer<ul>
+<li>Nested subqueries quickly become difficult to understand</li>
+</ul>
+</li>
+<li>Database decides how to optimize</li>
+</ul>
+</main>
+<footer>
+<div class="row">
+<div class="col-3 left">
+	  ⇐ <a href="../03_cond/">Conditionals</a>
+</div>
+<div class="col-6 center">
+<a href="../"></a>
+	  © 2025
+	  <a href="../#acknowledgments">the authors</a>
+</div>
+<div class="col-3 right">
+<a href="../03_compare/">More Comparisons</a> ⇒
+	</div>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Conditionals</title>
+<link href="../static/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="../static/page.css" rel="stylesheet" type="text/css"/>
+<link href="../static/pygments.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<nav>
+<a href="../">Home</a>
+      ·
+      <span class="dropdown">
+<a href="#">Lessons</a>
+<span class="dropdown-content" id="nav-lessons">
+<a href="../01_intro/">Introduction</a>
+<a href="../02_core/">Core Features</a>
+<a href="../02_null/">Missing Values</a>
+<a href="../02_group/">Aggregating and Grouping</a>
+<a href="../02_join/">Combining Information</a>
+<a href="../02_modify/">Modifying Data</a>
+<a href="../02_questions/">Practice Questions</a>
+<a href="../03_keys/">Keys</a>
+<a href="../03_cond/">Conditionals</a>
+<a href="../03_subquery/">Subqueries</a>
+<a href="../03_compare/">More Comparisons</a>
+<a href="../03_tools/">Tools</a>
+<a href="../03_questions/">Practice Questions</a>
+<a href="../05_advanced/">Advanced Features</a>
+<a href="../08_finale/">Conclusion</a>
+</span>
+</span>
+      ·
+      <span class="dropdown">
+<a href="#">Appendices</a>
+<span class="dropdown-content" id="nav-appendices">
+<a href="../license/">License</a>
+<a href="../conduct/">Code of Conduct</a>
+<a href="../contributing/">Contributing</a>
+<a href="../bibliography/">Bibliography</a>
+<a href="../glossary/">Glossary</a>
+<a href="../02_answers/">Practice Answers</a>
+<a href="../04_python/">Python</a>
+<a href="../06_r/">R</a>
+<a href="../07_psql/">PostgreSQL</a>
+</span>
+</span>
+</nav>
+<main>
+<h1>Conditionals</h1>
+<p id="terms">Terms defined: <a class="term-defined" href="expression">expression</a>, <a class="term-defined" href="statement">statement</a>, <a class="term-defined" href="vectorization">vectorization</a></p>
+<h2>If/Else</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">with</span><span class="w"> </span><span class="n">sized_penguins</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">select</span>
+<span class="w">        </span><span class="n">species</span><span class="p">,</span>
+<span class="w">        </span><span class="n">iif</span><span class="p">(</span>
+<span class="w">            </span><span class="n">body_mass_g</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3500</span><span class="p">,</span>
+<span class="w">            </span><span class="s1">'small'</span><span class="p">,</span>
+<span class="w">            </span><span class="s1">'large'</span>
+<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">size</span>
+<span class="w">    </span><span class="k">from</span><span class="w"> </span><span class="n">penguins</span>
+<span class="w">    </span><span class="k">where</span><span class="w"> </span><span class="n">body_mass_g</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span>
+<span class="p">)</span>
+
+<span class="k">select</span>
+<span class="w">    </span><span class="n">species</span><span class="p">,</span>
+<span class="w">    </span><span class="k">size</span><span class="p">,</span>
+<span class="w">    </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">num</span>
+<span class="k">from</span><span class="w"> </span><span class="n">sized_penguins</span>
+<span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">species</span><span class="p">,</span><span class="w"> </span><span class="k">size</span>
+<span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">species</span><span class="p">,</span><span class="w"> </span><span class="n">num</span><span class="p">;</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>|  species  | size  | num |
+|-----------|-------|-----|
+| Adelie    | small | 54  |
+| Adelie    | large | 97  |
+| Chinstrap | small | 17  |
+| Chinstrap | large | 51  |
+| Gentoo    | large | 123 |
+</code></pre></div>
+<ul>
+<li><code>iif(<em>condition</em>, <em>true_result</em>, <em>false_result</em>)</code><ul>
+<li>Note: <code>iif</code> with two i's</li>
+</ul>
+</li>
+<li>May feel odd to think of <code>if</code>/<code>else</code> as a function,
+    but common in <a href="../glossary/#vectorization">vectorized</a> calculations</li>
+</ul>
+<h2 class="exercise">Exercise</h2>
+<p>How does the result of the previous query change
+if the check for null body mass is removed?
+Why is the result without that check misleading?</p>
+<p>What does each of the expressions shown below produce?
+Which ones do you think actually attempt to divide by zero?</p>
+<ol>
+<li><code>iif(0, 123, 1/0)</code></li>
+<li><code>iif(1, 123, 1/0)</code></li>
+<li><code>iif(0, 1/0, 123)</code></li>
+<li><code>iif(1, 1/0, 123)</code></li>
+</ol>
+<h2>Selecting a Case</h2>
+<ul>
+<li>What if we want small, medium, and large?</li>
+<li>Can nest <code>iif</code>, but quickly becomes unreadable</li>
+</ul>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">with</span><span class="w"> </span><span class="n">sized_penguins</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">select</span>
+<span class="w">        </span><span class="n">species</span><span class="p">,</span>
+<span class="w">        </span><span class="k">case</span>
+<span class="w">            </span><span class="k">when</span><span class="w"> </span><span class="n">body_mass_g</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3500</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="s1">'small'</span>
+<span class="w">            </span><span class="k">when</span><span class="w"> </span><span class="n">body_mass_g</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5000</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="s1">'medium'</span>
+<span class="w">            </span><span class="k">else</span><span class="w"> </span><span class="s1">'large'</span>
+<span class="w">        </span><span class="k">end</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">size</span>
+<span class="w">    </span><span class="k">from</span><span class="w"> </span><span class="n">penguins</span>
+<span class="w">    </span><span class="k">where</span><span class="w"> </span><span class="n">body_mass_g</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span>
+<span class="p">)</span>
+
+<span class="k">select</span>
+<span class="w">    </span><span class="n">species</span><span class="p">,</span>
+<span class="w">    </span><span class="k">size</span><span class="p">,</span>
+<span class="w">    </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">num</span>
+<span class="k">from</span><span class="w"> </span><span class="n">sized_penguins</span>
+<span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">species</span><span class="p">,</span><span class="w"> </span><span class="k">size</span>
+<span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">species</span><span class="p">,</span><span class="w"> </span><span class="n">num</span><span class="p">;</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>|  species  |  size  | num |
+|-----------|--------|-----|
+| Adelie    | small  | 54  |
+| Adelie    | medium | 97  |
+| Chinstrap | small  | 17  |
+| Chinstrap | medium | 51  |
+| Gentoo    | medium | 56  |
+| Gentoo    | large  | 67  |
+</code></pre></div>
+<ul>
+<li>Evaluate <code>when</code> options in order and take first</li>
+<li>Result of <code>case</code> is null if no condition is true</li>
+<li>Use <code>else</code> as fallback</li>
+</ul>
+<h2 class="exercise">Exercise</h2>
+<p>Modify the query above so that
+the outputs are <code>"penguin is small"</code> and <code>"penguin is large"</code>
+by concatenating the string <code>"penguin is "</code> to the entire <code>case</code>
+rather than to the individual <code>when</code> branches.
+(This exercise shows that <code>case</code>/<code>when</code> is an <a href="../glossary/#expression">expression</a>
+rather than a <a href="../glossary/#statement">statement</a>.)</p>
+<h2>Checking a Range</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">with</span><span class="w"> </span><span class="n">sized_penguins</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">select</span>
+<span class="w">        </span><span class="n">species</span><span class="p">,</span>
+<span class="w">        </span><span class="k">case</span>
+<span class="w">            </span><span class="k">when</span><span class="w"> </span><span class="n">body_mass_g</span><span class="w"> </span><span class="k">between</span><span class="w"> </span><span class="mi">3500</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="mi">5000</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="s1">'normal'</span>
+<span class="w">            </span><span class="k">else</span><span class="w"> </span><span class="s1">'abnormal'</span>
+<span class="w">        </span><span class="k">end</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">size</span>
+<span class="w">    </span><span class="k">from</span><span class="w"> </span><span class="n">penguins</span>
+<span class="w">    </span><span class="k">where</span><span class="w"> </span><span class="n">body_mass_g</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span>
+<span class="p">)</span>
+
+<span class="k">select</span>
+<span class="w">    </span><span class="n">species</span><span class="p">,</span>
+<span class="w">    </span><span class="k">size</span><span class="p">,</span>
+<span class="w">    </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">num</span>
+<span class="k">from</span><span class="w"> </span><span class="n">sized_penguins</span>
+<span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">species</span><span class="p">,</span><span class="w"> </span><span class="k">size</span>
+<span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">species</span><span class="p">,</span><span class="w"> </span><span class="n">num</span><span class="p">;</span>
+</code></pre></div>
+<div class="codehilite"><pre class=""><span></span><code>|  species  |   size   | num |
+|-----------|----------|-----|
+| Adelie    | abnormal | 54  |
+| Adelie    | normal   | 97  |
+| Chinstrap | abnormal | 17  |
+| Chinstrap | normal   | 51  |
+| Gentoo    | abnormal | 61  |
+| Gentoo    | normal   | 62  |
+</code></pre></div>
+<ul>
+<li><code>between</code> can make queries easier to read</li>
+<li>But be careful of the <code>and</code> in the middle</li>
+</ul>
+<h2 class="exercise">Exercise</h2>
+<p>The expression <code>val between 'A' and 'Z'</code> is true if <code>val</code> is <code>'M'</code> (upper case)
+but false if <code>val</code> is <code>'m'</code> (lower case).
+Rewrite the expression using <a href="https://www.sqlite.org/lang_corefunc.html">SQLite's built-in scalar functions</a>
+so that it is true in both cases.</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>substr</code></td>
+<td>Get substring given starting point and length</td>
+</tr>
+<tr>
+<td><code>trim</code></td>
+<td>Remove characters from beginning and end of string</td>
+</tr>
+<tr>
+<td><code>ltrim</code></td>
+<td>Remove characters from beginning of string</td>
+</tr>
+<tr>
+<td><code>rtrim</code></td>
+<td>Remove characters from end of string</td>
+</tr>
+<tr>
+<td><code>length</code></td>
+<td>Length of string</td>
+</tr>
+<tr>
+<td><code>replace</code></td>
+<td>Replace occurrences of substring with another string</td>
+</tr>
+<tr>
+<td><code>upper</code></td>
+<td>Return upper-case version of string</td>
+</tr>
+<tr>
+<td><code>lower</code></td>
+<td>Return lower-case version of string</td>
+</tr>
+<tr>
+<td><code>instr</code></td>
+<td>Find location of first occurrence of substring (returns 0 if not found)</td>
+</tr>
+</tbody>
+</table>
+</main>
+<footer>
+<div class="row">
+<div class="col-3 left">
+	  ⇐ <a href="../03_keys/">Keys</a>
+</div>
+<div class="col-6 center">
+<a href="../"></a>
+	  © 2025
+	  <a href="../#acknowledgments">the authors</a>
+</div>
+<div class="col-3 right">
+<a href="../03_subquery/">Subqueries</a> ⇒
+	</div>
+</div>
+</footer>
+</body>
+</html>
