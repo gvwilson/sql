@@ -87,6 +87,10 @@ EXPERIMENTS = {
     "trial": {"staff": [1, 2], "duration": [1, 2], "plates": [2, 16]},
 }
 
+ADD_NULLS = """
+update experiment set ended = NULL where ended > "2024-01-21";
+"""
+
 
 def main():
     """Main driver."""
@@ -97,6 +101,7 @@ def main():
     conn = create_tables(filename)
     fill_staff(conn, fake)
     fill_experiments(conn, fake)
+    conn.executescript(ADD_NULLS)
     conn.commit()
 
 

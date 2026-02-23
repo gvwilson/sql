@@ -63,23 +63,24 @@ Show all columns for every department.
 
 ## 2. List staff names and ages
 
-Show the personal name, family name, and age of all staff members.
+Show only the personal name, family name, and age of all staff members.
 
 ## 3. Staff older than a given age
 
-Find the personal and family names of staff who are older than 40.
+Show the personal and family names of staff who are older than 40 as a single column.
+(Hint: `||` glues text together.)
 
 ## 4. Departments in a specific building
 
-List the names of departments located in the building "Science Hall".
+Show the names of departments located in the Chesson Building.
 
 ## 5. Experiments that have ended
 
-List all experiments that have an end date.
+List all experiments that have not yet ended (i.e., have no end date).
 
-## 6. Experiments of a given kind
+## 6. Experiment range
 
-Show the identifiers and start dates of all experiments of kind "chemistry".
+Show the earliest and latest start dates of the experiments that have ended.
 
 ## 7. Count staff members
 
@@ -88,38 +89,44 @@ How many staff members are in the database?
 ## 8. Staff per department
 
 List each department identifier and the number of staff assigned to it.
+How do you handle staff who aren't assigned to a department?
 
 ## 9. Staff with their department names
 
-List each staff member’s personal name, family name, and department name.
+List each staff member's personal name, family name, and department name (not department ID).
 
 ## 10. Experiments performed by staff
 
-List the experiment IDs along with the personal and family names of staff who performed them.
+Count the number of experiments of each kind that each staff member helped perform.
 
-## 11. Plates for each experiment
-
-List each experiment ID and the filename of every plate associated with it.
-
-## 12. Number of plates per experiment
+## 11. Number of plates per experiment
 
 Show each experiment ID and the number of plates uploaded for it.
 
-## 13. Experiments with no end date
+## 12. Plates for each experiment
 
-List experiments that are still ongoing.
+List each experiment ID and the filename of every plate associated with it,
+with the filenames in a single column.
+(Hint: look at the `group_concat` function.)
+
+## 13. Short experiments
+
+Count experiments that ended on the same day they started.
 
 ## 14. Staff who performed experiments of a given kind
 
 Find the personal and family names of staff who performed calibration experiments.
+List each staff member once.
+Hint: you will need to use the `performed` table to combine `staff` and `experiment`.
 
 ## 15. Plates invalidated by staff
 
-List the plate ID, invalidation date, and the family name of the staff member who invalidated it.
+Show the plate ID and invalidation date of every invalidated plate
+along with the family name of the staff member who invalidated it.
 
 ## 16. Plates invalidated more than once
 
-Find plates that have been invalidated more than once.
+Have any plates been invalidated more than once?
 
 ## 17. Staff who never performed an experiment
 
@@ -131,8 +138,8 @@ List experiments that have no associated plates.
 
 ## 19. Department with the most staff
 
-Find the department identifier that has the largest number of staff.
+Show the name of the department with the most staff.
 
 ## 20. Staff involved in experiments with invalidated plates
 
-List the distinct personal and family names of staff members who performed experiments that have at least one invalidated plate.
+List the names of staff members who performed experiments that have at least one invalidated plate.

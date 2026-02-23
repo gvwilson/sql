@@ -64,5 +64,4 @@ release:
 	@zip -r sql-tutorial.zip \
 	db \
 	extras/penguins.csv \
-	src \
 	-x \*~

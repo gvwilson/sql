@@ -107,43 +107,50 @@
 <h2>1. List all departments</h2>
 <p>Show all columns for every department.</p>
 <h2>2. List staff names and ages</h2>
-<p>Show the personal name, family name, and age of all staff members.</p>
+<p>Show only the personal name, family name, and age of all staff members.</p>
 <h2>3. Staff older than a given age</h2>
-<p>Find the personal and family names of staff who are older than 40.</p>
+<p>Show the personal and family names of staff who are older than 40 as a single column.
+(Hint: <code>||</code> glues text together.)</p>
 <h2>4. Departments in a specific building</h2>
-<p>List the names of departments located in the building "Science Hall".</p>
+<p>Show the names of departments located in the Chesson Building.</p>
 <h2>5. Experiments that have ended</h2>
-<p>List all experiments that have an end date.</p>
-<h2>6. Experiments of a given kind</h2>
-<p>Show the identifiers and start dates of all experiments of kind "chemistry".</p>
+<p>List all experiments that have not yet ended (i.e., have no end date).</p>
+<h2>6. Experiment range</h2>
+<p>Show the earliest and latest start dates of the experiments that have ended.</p>
 <h2>7. Count staff members</h2>
 <p>How many staff members are in the database?</p>
 <h2>8. Staff per department</h2>
-<p>List each department identifier and the number of staff assigned to it.</p>
+<p>List each department identifier and the number of staff assigned to it.
+How do you handle staff who aren't assigned to a department?</p>
 <h2>9. Staff with their department names</h2>
-<p>List each staff member’s personal name, family name, and department name.</p>
+<p>List each staff member's personal name, family name, and department name (not department ID).</p>
 <h2>10. Experiments performed by staff</h2>
-<p>List the experiment IDs along with the personal and family names of staff who performed them.</p>
-<h2>11. Plates for each experiment</h2>
-<p>List each experiment ID and the filename of every plate associated with it.</p>
-<h2>12. Number of plates per experiment</h2>
+<p>Count the number of experiments of each kind that each staff member helped perform.</p>
+<h2>11. Number of plates per experiment</h2>
 <p>Show each experiment ID and the number of plates uploaded for it.</p>
-<h2>13. Experiments with no end date</h2>
-<p>List experiments that are still ongoing.</p>
+<h2>12. Plates for each experiment</h2>
+<p>List each experiment ID and the filename of every plate associated with it,
+with the filenames in a single column.
+(Hint: look at the <code>group_concat</code> function.)</p>
+<h2>13. Short experiments</h2>
+<p>Count experiments that ended on the same day they started.</p>
 <h2>14. Staff who performed experiments of a given kind</h2>
-<p>Find the personal and family names of staff who performed calibration experiments.</p>
+<p>Find the personal and family names of staff who performed calibration experiments.
+List each staff member once.
+Hint: you will need to use the <code>performed</code> table to combine <code>staff</code> and <code>experiment</code>.</p>
 <h2>15. Plates invalidated by staff</h2>
-<p>List the plate ID, invalidation date, and the family name of the staff member who invalidated it.</p>
+<p>Show the plate ID and invalidation date of every invalidated plate
+along with the family name of the staff member who invalidated it.</p>
 <h2>16. Plates invalidated more than once</h2>
-<p>Find plates that have been invalidated more than once.</p>
+<p>Have any plates been invalidated more than once?</p>
 <h2>17. Staff who never performed an experiment</h2>
 <p>List staff members who have never performed any experiment.</p>
 <h2>18. Experiments with no plates</h2>
 <p>List experiments that have no associated plates.</p>
 <h2>19. Department with the most staff</h2>
-<p>Find the department identifier that has the largest number of staff.</p>
+<p>Show the name of the department with the most staff.</p>
 <h2>20. Staff involved in experiments with invalidated plates</h2>
-<p>List the distinct personal and family names of staff members who performed experiments that have at least one invalidated plate.</p>
+<p>List the names of staff members who performed experiments that have at least one invalidated plate.</p>
 </main>
 <footer>
 <div class="row">
