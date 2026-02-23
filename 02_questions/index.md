@@ -111,7 +111,7 @@ List experiments that are still ongoing.
 
 ## 14. Staff who performed experiments of a given kind
 
-Find the personal and family names of staff who performed "biology" experiments.
+Find the personal and family names of staff who performed calibration experiments.
 
 ## 15. Plates invalidated by staff
 

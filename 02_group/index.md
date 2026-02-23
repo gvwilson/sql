@@ -39,7 +39,7 @@ from penguins;
 
 ## Exercise {: .exercise}
 
-What is the average body mass of penguins that weight more than 3000.0 grams?
+What is the average body mass of penguins that weigh more than 3000.0 grams?
 
 ## Counting
 
