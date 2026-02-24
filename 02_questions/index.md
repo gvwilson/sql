@@ -74,9 +74,9 @@ Show the personal and family names of staff who are older than 40 as a single co
 
 Show the names of departments located in the Chesson Building.
 
-## 5. Experiments that have ended
+## 5. Experiments that have not ended
 
-List all experiments that have not yet ended (i.e., have no end date).
+List all experiments that have no end date.
 
 ## 6. Experiment range
 
