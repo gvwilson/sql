@@ -11,29 +11,29 @@
 
 ## 2. Count the number of people.
 
-## 3. Show all people who supervise someone else.
+## 3. Show people with no supervisor.
 
-## 4. Show people with no supervisor.
+## 4. Show each person's full name and their supervisor's full name.
 
-## 5. Show each person's full name and their supervisor's full name.
+## 5. Find surveys with no end date.
 
-## 6. Find surveys with no end date.
+## 6. Show surveys with their owner's name.
 
-## 7. Show surveys with their owner's name.
+## 7. Show distinct machine types.
 
-## 8. Show distinct machine types.
+## 8. Count machines by type.
 
-## 9. Count machines by type.
+## 9. Find ratings above level 1.
 
-## 10. Find ratings above level 1.
+## 10. Show who has a rating for which machine.
 
-## 11. Show who has a rating for which machine.
+## 11. Calculate each person's average rating on all machines.
 
-## 12. Calculate each person's average rating on all machines.
+## 12. Show people who have at least one machine rating.
 
-## 13. Show people who have at least one machine rating.
+## 13. Show machines that no one has a rating for.
 
-## 14. Show machines that no one has a rating for.
+## 14. Show all people who supervise someone else.
 
 ## 15. Show how many surveys each person is associated with.
 

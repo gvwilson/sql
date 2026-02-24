@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>More Practice Questions</title>
+<link href="../static/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="../static/page.css" rel="stylesheet" type="text/css"/>
+<link href="../static/pygments.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<nav>
+<a href="../">Home</a>
+      ·
+      <span class="dropdown">
+<a href="#">Lessons</a>
+<span class="dropdown-content" id="nav-lessons">
+<a href="../01_intro/">Introduction</a>
+<a href="../02_core/">Core Features</a>
+<a href="../02_null/">Missing Values</a>
+<a href="../02_group/">Aggregating and Grouping</a>
+<a href="../02_join/">Combining Information</a>
+<a href="../02_modify/">Modifying Data</a>
+<a href="../02_questions/">Practice Questions</a>
+<a href="../03_keys/">Keys</a>
+<a href="../03_cond/">Conditionals</a>
+<a href="../03_subquery/">Subqueries</a>
+<a href="../03_compare/">More Comparisons</a>
+<a href="../03_tools/">Tools</a>
+<a href="../03_questions/">Practice Questions</a>
+<a href="../05_advanced/">Advanced Features</a>
+<a href="../08_finale/">Conclusion</a>
+</span>
+</span>
+      ·
+      <span class="dropdown">
+<a href="#">Appendices</a>
+<span class="dropdown-content" id="nav-appendices">
+<a href="../license/">License</a>
+<a href="../conduct/">Code of Conduct</a>
+<a href="../contributing/">Contributing</a>
+<a href="../bibliography/">Bibliography</a>
+<a href="../glossary/">Glossary</a>
+<a href="../02_answers/">Practice Answers</a>
+<a href="../03_answers/">More Answers</a>
+<a href="../04_python/">Python</a>
+<a href="../06_r/">R</a>
+<a href="../07_psql/">PostgreSQL</a>
+</span>
+</span>
+</nav>
+<main>
+<h1>More Practice Questions</h1>
+<h2>1. Show each person's first and last name.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="n">personal</span><span class="p">,</span><span class="w"> </span><span class="n">family</span>
+<span class="k">from</span><span class="w"> </span><span class="n">person</span><span class="p">;</span>
+</code></pre></div>
+<h2>2. Count the number of people.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">num_people</span>
+<span class="k">from</span><span class="w"> </span><span class="n">person</span><span class="p">;</span>
+</code></pre></div>
+<h2>3. Show people with no supervisor.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="n">person_id</span><span class="p">,</span><span class="w"> </span><span class="n">personal</span><span class="p">,</span><span class="w"> </span><span class="n">family</span>
+<span class="k">from</span><span class="w"> </span><span class="n">person</span>
+<span class="k">where</span><span class="w"> </span><span class="n">supervisor_id</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">null</span><span class="p">;</span>
+</code></pre></div>
+<h2>4. Show each person's full name and their supervisor's full name.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span>
+<span class="w">    </span><span class="n">p</span><span class="p">.</span><span class="n">personal</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">' '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">family</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">person_name</span><span class="p">,</span>
+<span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">personal</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">' '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">family</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">supervisor_name</span>
+<span class="k">from</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">p</span>
+<span class="k">left</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">supervisor_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">person_id</span><span class="p">;</span>
+</code></pre></div>
+<h2>5. Find surveys with no end date.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="o">*</span>
+<span class="k">from</span><span class="w"> </span><span class="n">survey</span>
+<span class="k">where</span><span class="w"> </span><span class="n">end_date</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">null</span><span class="p">;</span>
+</code></pre></div>
+<h2>6. Show surveys with their owner's name.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span>
+<span class="w">    </span><span class="n">survey</span><span class="p">.</span><span class="n">survey_id</span><span class="p">,</span>
+<span class="w">    </span><span class="n">person</span><span class="p">.</span><span class="n">personal</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">' '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">family</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">owner_name</span><span class="p">,</span>
+<span class="w">    </span><span class="n">survey</span><span class="p">.</span><span class="n">start_date</span><span class="p">,</span>
+<span class="w">    </span><span class="n">survey</span><span class="p">.</span><span class="n">end_date</span>
+<span class="k">from</span><span class="w"> </span><span class="n">survey</span>
+<span class="k">join</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">survey</span><span class="p">.</span><span class="n">person_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">person_id</span><span class="p">;</span>
+</code></pre></div>
+<h2>7. Show distinct machine types.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="k">distinct</span><span class="w"> </span><span class="n">machine_type</span>
+<span class="k">from</span><span class="w"> </span><span class="n">machine</span><span class="p">;</span>
+</code></pre></div>
+<h2>8. Count machines by type.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="n">machine_type</span><span class="p">,</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">num_machines</span>
+<span class="k">from</span><span class="w"> </span><span class="n">machine</span>
+<span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">machine_type</span><span class="p">;</span>
+</code></pre></div>
+<h2>9. Find ratings above level 1.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="o">*</span>
+<span class="k">from</span><span class="w"> </span><span class="n">rating</span>
+<span class="k">where</span><span class="w"> </span><span class="k">level</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+<h2>10. Show who has a rating for which machine.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span>
+<span class="w">    </span><span class="n">person</span><span class="p">.</span><span class="n">personal</span><span class="p">,</span>
+<span class="w">    </span><span class="n">person</span><span class="p">.</span><span class="n">family</span><span class="p">,</span>
+<span class="w">    </span><span class="n">machine</span><span class="p">.</span><span class="n">machine_id</span><span class="p">,</span>
+<span class="w">    </span><span class="n">machine</span><span class="p">.</span><span class="n">machine_type</span><span class="p">,</span>
+<span class="w">    </span><span class="n">rating</span><span class="p">.</span><span class="k">level</span>
+<span class="k">from</span><span class="w"> </span><span class="n">rating</span>
+<span class="k">join</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">rating</span><span class="p">.</span><span class="n">person_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">person_id</span>
+<span class="k">join</span><span class="w"> </span><span class="n">machine</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">rating</span><span class="p">.</span><span class="n">machine_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">machine</span><span class="p">.</span><span class="n">machine_id</span><span class="p">;</span>
+</code></pre></div>
+<h2>11. Calculate each person's average rating on all machines.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span>
+<span class="w">    </span><span class="n">person</span><span class="p">.</span><span class="n">personal</span><span class="p">,</span>
+<span class="w">    </span><span class="n">person</span><span class="p">.</span><span class="n">family</span><span class="p">,</span>
+<span class="w">    </span><span class="n">round</span><span class="p">(</span><span class="k">avg</span><span class="p">(</span><span class="n">rating</span><span class="p">.</span><span class="k">level</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">avg_rating</span>
+<span class="k">from</span><span class="w"> </span><span class="n">person</span>
+<span class="k">join</span><span class="w"> </span><span class="n">rating</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">person_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rating</span><span class="p">.</span><span class="n">person_id</span>
+<span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">person_id</span><span class="p">;</span>
+</code></pre></div>
+<h2>12. Show people who have at least one machine rating.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="k">distinct</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">personal</span><span class="p">,</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">family</span>
+<span class="k">from</span><span class="w"> </span><span class="n">person</span>
+<span class="k">join</span><span class="w"> </span><span class="n">rating</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">person_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rating</span><span class="p">.</span><span class="n">person_id</span><span class="p">;</span>
+</code></pre></div>
+<h2>13. Show machines that no one has a rating for.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="n">machine</span><span class="p">.</span><span class="n">machine_id</span><span class="p">,</span><span class="w"> </span><span class="n">machine</span><span class="p">.</span><span class="n">machine_type</span>
+<span class="k">from</span><span class="w"> </span><span class="n">machine</span>
+<span class="k">where</span><span class="w"> </span><span class="n">machine</span><span class="p">.</span><span class="n">machine_id</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="p">(</span><span class="k">select</span><span class="w"> </span><span class="k">distinct</span><span class="w"> </span><span class="n">machine_id</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">rating</span><span class="p">);</span>
+</code></pre></div>
+<h2>14. Show all people who supervise someone else.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="k">distinct</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">person_id</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">personal</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">family</span>
+<span class="k">from</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">p</span>
+<span class="k">join</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">person_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">supervisor_id</span><span class="p">;</span>
+</code></pre></div>
+<h2>15. Show how many surveys each person is associated with.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span>
+<span class="w">    </span><span class="n">person</span><span class="p">.</span><span class="n">personal</span><span class="p">,</span>
+<span class="w">    </span><span class="n">person</span><span class="p">.</span><span class="n">family</span><span class="p">,</span>
+<span class="w">    </span><span class="k">count</span><span class="p">(</span><span class="n">survey</span><span class="p">.</span><span class="n">survey_id</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">num_surveys</span>
+<span class="k">from</span><span class="w"> </span><span class="n">person</span>
+<span class="k">left</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">survey</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">person_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">survey</span><span class="p">.</span><span class="n">person_id</span>
+<span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">person_id</span><span class="p">;</span>
+</code></pre></div>
+<h2>16. Show people who do not have ratings for any machines.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">personal</span><span class="p">,</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">family</span>
+<span class="k">from</span><span class="w"> </span><span class="n">person</span>
+<span class="k">where</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">person_id</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="p">(</span><span class="k">select</span><span class="w"> </span><span class="k">distinct</span><span class="w"> </span><span class="n">person_id</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">rating</span><span class="p">);</span>
+</code></pre></div>
+<h2>17. Find machines that have not been rated by person P001.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="n">machine</span><span class="p">.</span><span class="n">machine_id</span><span class="p">,</span><span class="w"> </span><span class="n">machine</span><span class="p">.</span><span class="n">machine_type</span>
+<span class="k">from</span><span class="w"> </span><span class="n">machine</span>
+<span class="k">where</span><span class="w"> </span><span class="n">machine</span><span class="p">.</span><span class="n">machine_id</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">select</span><span class="w"> </span><span class="n">machine_id</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">rating</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">person_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'P001'</span>
+<span class="p">);</span>
+</code></pre></div>
+<h2>18. Find supervisors who are not associated with any surveys.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="k">distinct</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">person_id</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">personal</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">family</span>
+<span class="k">from</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">p</span>
+<span class="k">join</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">person_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">supervisor_id</span>
+<span class="k">where</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">person_id</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="p">(</span><span class="k">select</span><span class="w"> </span><span class="n">person_id</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">survey</span><span class="p">);</span>
+</code></pre></div>
+<h2>19. Show people who have ratings for more than one type of machine.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">personal</span><span class="p">,</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">family</span>
+<span class="k">from</span><span class="w"> </span><span class="n">person</span>
+<span class="k">join</span><span class="w"> </span><span class="n">rating</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">person_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rating</span><span class="p">.</span><span class="n">person_id</span>
+<span class="k">join</span><span class="w"> </span><span class="n">machine</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">rating</span><span class="p">.</span><span class="n">machine_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">machine</span><span class="p">.</span><span class="n">machine_id</span>
+<span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">person_id</span>
+<span class="k">having</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="k">distinct</span><span class="w"> </span><span class="n">machine</span><span class="p">.</span><span class="n">machine_type</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+<h2>20. Find the highest rating that anyone has on any kind of machine.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span><span class="w"> </span><span class="k">max</span><span class="p">(</span><span class="k">level</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">highest_rating</span>
+<span class="k">from</span><span class="w"> </span><span class="n">rating</span><span class="p">;</span>
+</code></pre></div>
+<h2>21. Show all of the people who have that highest rating for any kind of machine.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span>
+<span class="w">    </span><span class="n">person</span><span class="p">.</span><span class="n">personal</span><span class="p">,</span>
+<span class="w">    </span><span class="n">person</span><span class="p">.</span><span class="n">family</span><span class="p">,</span>
+<span class="w">    </span><span class="n">machine</span><span class="p">.</span><span class="n">machine_type</span><span class="p">,</span>
+<span class="w">    </span><span class="n">rating</span><span class="p">.</span><span class="k">level</span>
+<span class="k">from</span><span class="w"> </span><span class="n">rating</span>
+<span class="k">join</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">rating</span><span class="p">.</span><span class="n">person_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">person_id</span>
+<span class="k">join</span><span class="w"> </span><span class="n">machine</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">rating</span><span class="p">.</span><span class="n">machine_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">machine</span><span class="p">.</span><span class="n">machine_id</span>
+<span class="k">where</span><span class="w"> </span><span class="n">rating</span><span class="p">.</span><span class="k">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">select</span><span class="w"> </span><span class="k">max</span><span class="p">(</span><span class="k">level</span><span class="p">)</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">rating</span><span class="p">);</span>
+</code></pre></div>
+<h2>22. Show the length in days of each survey.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span>
+<span class="w">    </span><span class="n">survey_id</span><span class="p">,</span>
+<span class="w">    </span><span class="k">cast</span><span class="p">(</span><span class="n">julianday</span><span class="p">(</span><span class="n">end_date</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">julianday</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nb">integer</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">length_days</span>
+<span class="k">from</span><span class="w"> </span><span class="n">survey</span>
+<span class="k">where</span><span class="w"> </span><span class="n">start_date</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span>
+<span class="k">and</span><span class="w"> </span><span class="n">end_date</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span><span class="p">;</span>
+</code></pre></div>
+<h2>23. Show the total length of time that each person has spent doing surveys.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">select</span>
+<span class="w">    </span><span class="n">person</span><span class="p">.</span><span class="n">personal</span><span class="p">,</span>
+<span class="w">    </span><span class="n">person</span><span class="p">.</span><span class="n">family</span><span class="p">,</span>
+<span class="w">    </span><span class="k">cast</span><span class="p">(</span><span class="k">sum</span><span class="p">(</span><span class="n">julianday</span><span class="p">(</span><span class="n">survey</span><span class="p">.</span><span class="n">end_date</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">julianday</span><span class="p">(</span><span class="n">survey</span><span class="p">.</span><span class="n">start_date</span><span class="p">))</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nb">integer</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">total_days</span>
+<span class="k">from</span><span class="w"> </span><span class="n">person</span>
+<span class="k">join</span><span class="w"> </span><span class="n">survey</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">person_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">survey</span><span class="p">.</span><span class="n">person_id</span>
+<span class="k">where</span><span class="w"> </span><span class="n">survey</span><span class="p">.</span><span class="n">start_date</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span>
+<span class="k">and</span><span class="w"> </span><span class="n">survey</span><span class="p">.</span><span class="n">end_date</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span>
+<span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">person_id</span><span class="p">;</span>
+</code></pre></div>
+<h2>24. Find the longest time <em>between</em> surveys for each person.</h2>
+<div class="codehilite"><pre class=""><span></span><code><span class="k">with</span><span class="w"> </span><span class="n">ordered</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">select</span>
+<span class="w">        </span><span class="n">person_id</span><span class="p">,</span>
+<span class="w">        </span><span class="n">start_date</span><span class="p">,</span>
+<span class="w">        </span><span class="n">end_date</span><span class="p">,</span>
+<span class="w">        </span><span class="n">lead</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span><span class="w"> </span><span class="n">over</span><span class="w"> </span><span class="p">(</span><span class="n">partition</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">person_id</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">start_date</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">next_start</span>
+<span class="w">    </span><span class="k">from</span><span class="w"> </span><span class="n">survey</span>
+<span class="w">    </span><span class="k">where</span><span class="w"> </span><span class="n">start_date</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span>
+<span class="p">)</span>
+<span class="k">select</span>
+<span class="w">    </span><span class="n">person</span><span class="p">.</span><span class="n">personal</span><span class="p">,</span>
+<span class="w">    </span><span class="n">person</span><span class="p">.</span><span class="n">family</span><span class="p">,</span>
+<span class="w">    </span><span class="k">cast</span><span class="p">(</span><span class="k">max</span><span class="p">(</span><span class="n">julianday</span><span class="p">(</span><span class="n">ordered</span><span class="p">.</span><span class="n">next_start</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">julianday</span><span class="p">(</span><span class="n">ordered</span><span class="p">.</span><span class="n">end_date</span><span class="p">))</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nb">integer</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">longest_gap_days</span>
+<span class="k">from</span><span class="w"> </span><span class="n">ordered</span>
+<span class="k">join</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">ordered</span><span class="p">.</span><span class="n">person_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="n">person_id</span>
+<span class="k">where</span><span class="w"> </span><span class="n">ordered</span><span class="p">.</span><span class="n">end_date</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span>
+<span class="k">and</span><span class="w"> </span><span class="n">ordered</span><span class="p">.</span><span class="n">next_start</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="k">null</span>
+<span class="k">group</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">ordered</span><span class="p">.</span><span class="n">person_id</span><span class="p">;</span>
+</code></pre></div>
+</main>
+<footer>
+<div class="row">
+<div class="col-3 left">
+	  ⇐ <a href="../02_answers/">Practice Answers</a>
+</div>
+<div class="col-6 center">
+<a href="../"></a>
+	  © 2025
+	  <a href="../#acknowledgments">the authors</a>
+</div>
+<div class="col-3 right">
+<a href="../04_python/">Python</a> ⇒
+	</div>
+</div>
+</footer>
+</body>
+</html>

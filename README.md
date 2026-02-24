@@ -46,6 +46,7 @@
 1.  [Bibliography](@/bibliography/)
 1.  [Glossary](@/glossary/)
 1.  [Practice Answers](@/02_answers/)
+1.  [More Answers](@/03_answers/)
 1.  [Python](@/04_python/): using databases from Python
 1.  [R](@/06_r/): using databases from R
 1.  [PostgreSQL](@/07_psql/): client-server computing and permissions
