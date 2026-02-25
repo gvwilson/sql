@@ -7,6 +7,37 @@
 
 <a href="https://github.com/gvwilson/sql/raw/refs/heads/main/db/surveys.db">download surveys SQLite database file</a>
 
+```sql
+CREATE TABLE person(
+    person_id text not null primary key,
+    personal text not null,
+    family text not null,
+    supervisor_id text,
+    foreign key(supervisor_id) references person(person_id)
+);
+
+CREATE TABLE survey(
+    survey_id text not null primary key,
+    person_id text not null,
+    start_date text,
+    end_date text,
+    foreign key(person_id) references person(person_id)
+);
+
+CREATE TABLE machine(
+    machine_id text not null primary key,
+    machine_type text not null
+);
+
+CREATE TABLE rating(
+    person_id text not null,
+    machine_id text not null,
+    level integer,
+    foreign key(person_id) references person(person_id),
+    foreign key(machine_id) references machine(machine_id)
+);
+```
+
 ## 1. Show each person's first and last name.
 
 ## 2. Count the number of people.
