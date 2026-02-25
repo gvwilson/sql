@@ -76,8 +76,9 @@ with grouped as (
 select
     penguins.species,
     penguins.body_mass_g,
-    round(grouped.avg_mass_g, 1) as avg_mass_g
+    grouped.avg_mass_g
 from penguins inner join grouped
+on penguins.species = grouped.species
 where penguins.body_mass_g > grouped.avg_mass_g
 limit 5;
 ```
